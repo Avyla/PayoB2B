@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: payo-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: payodb
+    ports:
+      - "5433:5432"
+    volumes:
+      - payodb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      network: host
+    container_name: payo-backend
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "4000:4000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password123@db:5432/payodb?schema=public
+      - PORT=4000
+      - NODE_ENV=development
+      # JWT Secrets & GCP variables can be added here or read from .env
+      - JWT_SECRET=super_secret_local_key
+      # NOTA: En Cloud Run usaremos Google Cloud Scheduler enviando el token en headers.
+      - CRON_SECRET_TOKEN=my_secure_cron_token_123
+      # TODO: Añadir las variables de GCP como GCS_BUCKET_NAME etc.
+    env_file:
+      - ./backend/.env # Opcional: cargar variables de un .env local
+    command: sh -c "npx prisma migrate deploy && node dist/index.js"
+    # volumes:
+    #   - ./backend:/app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      network: host
+    container_name: payo-frontend
+    depends_on:
+      - backend
+    ports:
+      - "3005:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1
+    # Para desarrollo interactivo:
+    # command: npm run dev
+    # volumes:
+    #   - ./frontend:/app
+
+volumes:
+  payodb_data:

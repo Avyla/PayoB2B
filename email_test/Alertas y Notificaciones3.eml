@@ -1,0 +1,816 @@
+Delivered-To: eliamavila780@gmail.com
+Received: by 2002:a05:6a11:4388:b0:735:3e0c:929d with SMTP id mk8csp1918699pxb;
+        Tue, 30 Jun 2026 19:33:23 -0700 (PDT)
+X-Received: by 2002:a05:600c:8489:b0:493:9cb3:53fc with SMTP id 5b1f17b1804b1-493b82887a2mr75672365e9.11.1782873203051;
+        Tue, 30 Jun 2026 19:33:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782873203; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rCjxiVXSJos7FIr/0PIQLo8GPPtqP67/B/x7XDGmXVbqBOEQ/fd3xKbrWjBYxQgdUY
+         ncdgvz6H/xbL/4t8J1bZGg+sxDfhkQg/RYteq+VQQQ5PqsHy+xuO2NdkHMGcfJIJmKqY
+         auoc+OkfrtA7siBdaml+8GxPPN+jYBidI6OfrC7Tcbyon/QEISzDAA4/OPp/5ALMesoh
+         eBbvSZkrle9AnxP+TWa2Wwt1wh44dshQ/Gs4YMn8a1t8jeOYB8OWTpQJ0pVq2jyaflsw
+         i5SE5i72i3LBVAqJ//HBMj8FHDjORfkRbJSgNKWPWd+3ZaKlX2abLxjKPsMwRtyVDTdE
+         jieg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=date:message-id:subject:to:from:mime-version:reply-to
+         :dkim-signature:dkim-signature;
+        bh=CyD2HZfPy1lbRXjYVw2bOY/pYFQQ2pKZd+faDm39xQU=;
+        fh=bkD/lHfjw4a02dU3Z4+Cay8qu6+E0EoXmG2l4Sc0WDY=;
+        b=AwyjthHMcyfZ1yLYPjO+3qb9n1O9Z4lPpSxATkzq2ZJFJq8kwXtZclQ0Y7P7/x6eP8
+         a4OCagsJSeyEjmQEGJx4lxM1EdSeuxjX7hMgtsZJtwABwVN0/pMNzHtEaPimXN1BiWWx
+         X5TwUGouC6bzn+ZtHoq6qS7nz2G5YH2+/9t5KjslJMyKCOk6N4RC/EBQSi/rzxb9rILB
+         3Wz8Of9p5b2cxRXxC6IqSZTiuBCmRSPsnpmUcCO9AQgU51yrMrXz/UE2q6QPnpod9MHu
+         V9fMPHSSLOilegIRYdGS45uEthKfHp80QuCof85Hjq6B8LGdBpflesXOEEENyvcHnvKQ
+         V/Zg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@an.notificacionesbancolombia.com header.s=sctrans header.b=g1mapDes;
+       dkim=pass header.i=@sendclean.co.in header.s=s1 header.b=IZ5K201B;
+       spf=pass (google.com: domain of b-331286602-eliamavila780=gmail.com@trans.an.notificacionesbancolombia.com designates 45.115.30.193 as permitted sender) smtp.mailfrom="b-331286602-eliamavila780=gmail.com@trans.an.notificacionesbancolombia.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notificacionesbancolombia.com
+Return-Path: <b-331286602-eliamavila780=gmail.com@trans.an.notificacionesbancolombia.com>
+Received: from p193.mail2india.org (p193.mail2india.org. [45.115.30.193])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-47564a833absi8603190f8f.126.2026.06.30.19.33.22
+        for <eliamavila780@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 30 Jun 2026 19:33:23 -0700 (PDT)
+Received-SPF: pass (google.com: domain of b-331286602-eliamavila780=gmail.com@trans.an.notificacionesbancolombia.com designates 45.115.30.193 as permitted sender) client-ip=45.115.30.193;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@an.notificacionesbancolombia.com header.s=sctrans header.b=g1mapDes;
+       dkim=pass header.i=@sendclean.co.in header.s=s1 header.b=IZ5K201B;
+       spf=pass (google.com: domain of b-331286602-eliamavila780=gmail.com@trans.an.notificacionesbancolombia.com designates 45.115.30.193 as permitted sender) smtp.mailfrom="b-331286602-eliamavila780=gmail.com@trans.an.notificacionesbancolombia.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=notificacionesbancolombia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=an.notificacionesbancolombia.com; q=dns/txt; s=sctrans;
+ bh=CyD2HZfPy1lbRXjYVw2bOY/pYFQQ2pKZd+faDm39xQU=;
+ h=from:reply-to:subject:to:mime-version:content-type;
+ b=g1mapDesdZWT0pm2C2uslSVnswyP4BhDfjI8zACCGIoqsbL1fbjvlHU84a8Uxp2PAedJ104+HpOH
+ NLTjOQKjOawcjIi17CflX8PA2U4VTzB0uAeo4aIi9EcO60dBS3grfFjbicrNLmnCNp8/SYfXtUOx
+ +kSfaDpl0qvPUM1I3EU=
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sendclean.co.in;
+ q=dns/txt; s=s1; bh=CyD2HZfPy1lbRXjYVw2bOY/pYFQQ2pKZd+faDm39xQU=;
+ h=from:reply-to:subject:to:mime-version:content-type;
+ b=IZ5K201BhlKJ5kCO93tEXGLhTS+33qDOS4ovm+NExp2t7eWbsc2pr9rfvE4OChha7UYvJipTRfK4
+ pF4/hg14bSYenwMA7/nvzWufJ7Ija74Iy9xVr0ynmJQd77kxhSVGJguu85c3/E7IK9ruJvHmjFI0
+ Y1FVoSC+nX/YpLbXCHU=
+Received: from (10.20.3.167) by p193.mail2india.org id
+ E1943177-287F-4AA0-ABC5-7746F97492AD.2317 for <eliamavila780@gmail.com>;
+ Wed, 01 Jul 2026 02:33:22 +0000 (envelope-from
+ <b-331286602-eliamavila780=gmail.com@an.notificacionesbancolombia.com>)
+Reply-To: Alertas y Notificaciones
+ <alertasynotificaciones@an.notificacionesbancolombia.com>
+X-Mailer: STES v2.0
+MIME-Version: 1.0
+X-Unique-ID:
+ <a9384d3d-bc49-680b-d15b-99a9cc6af449@an.notificacionesbancolombia.com>
+X-App-Header: SC-US-APP
+From: Alertas y Notificaciones
+ <alertasynotificaciones@an.notificacionesbancolombia.com>
+To: eliamavila780@gmail.com
+Subject: Alertas y Notificaciones
+Message-ID: <a9384d3d-bc49-680b-d15b-99a9cc6af449@p193.mail2india.org>
+Date: Wed, 01 Jul 2026 02:33:22 +0000
+X-Mta-Unique-Id:
+ ksssbkte.ksdbeRRd--331286602-E1943177-287F-4AA0-ABC5-7746F97492AD.2317.1
+Content-Type: multipart/alternative;
+ boundary="----sm-b=_-?=_1-17828732024550.3807661598345353"
+
+------sm-b=_-?=_1-17828732024550.3807661598345353
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Logo Bancolombia [http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/605ce7f68622a5425353ea51/img/header-logo.png] yellow-icon =
+[https://bancolombia-email-wsuite.s3.amazonaws.com/templates/66d9c32445bd23=
+66ccb1b308/img/chulo.png]=20
+=C2=A1Listo! Todo sali=C3=B3 bien con tus movimientos Bancolombia: ELIAM, =
+recibiste una
+transferencia de ELIAM AVILA CUESTA por $1,000.00 en tu cuenta *3128 =
+conectada a
+la llave @eliam858 el 30/06/26 a las 21:33. Con llaves es de una y gratis. =
+Dudas
+al 018000912345.=20
+Icon 1 [https://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/5fca95d6ce3ebf33a8d8c017/img/lamp.png]=20
+Para que enviar plata siempre sea un =C3=A9xito, estos consejos de =
+seguridad:=20
+=E2=80=A2=20
+Revisa que la llave de la persona a qui=C3=A9n le transfieras plata,=
+coincida con el
+nombre que aparece en la pantalla de verificaci=C3=B3n de nuestra app.=20
+=E2=80=A2=20
+=C2=BFDebes digitar el valor? Confirma que est=C3=A9 bien.=20
+=E2=80=A2=20
+Verifica que la persona a quien le transfieras plata s=C3=AD la reciba. =
+Comparte la
+pantalla de transferencia exitosa y revisa tus movimientos.=20
+=E2=80=A2=20
+Este proceso de elecci=C3=B3n de llaves es diferente al que operar=C3=A1 =
+con Bre-B, el
+Sistema de Pagos Inmediatos
+[https://blog.bancolombia.com/educacion-financiera/que-es-bre-b/] del Banco=
+ de
+la Rep=C3=BAblica. La seguridad la logramos entre todos. Tu equipo =
+Bancolombia. Vigilado Superintendencia Financiera de Colombia Bancolombia_S=
+.A. Establecimiento Bancario [http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/6064f921ac0d9878ad5f633e/img/legal.png] Logo Bancolombia =
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/605ce7f68622a54=
+25353ea51/img/footer-logo.png] footer-logo [http://bancolombia-email-wsuite=
+.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/line.png]=20
+Por tu seguridad, desde Bancolombianunca te solicitaremos tus datos =
+personales,
+como usuario y clave; ni tus datos bancarios, como n=C3=BAmeros de tarjetas=
+ de
+cr=C3=A9dito, c=C3=B3digos de seguridad y plazos. Ninguno de nuestros =
+agentes te pedir=C3=A1 ni
+por escrito ni por tel=C3=A9fono este tipo de informaci=C3=B3n. Para =
+comprobar la
+autenticidad de este correo electr=C3=B3nico o cualquier otra =
+comunicaci=C3=B3n que
+recibas de nosotros, reenv=C3=ADalo a correosospechoso@bancolombia.com.co
+[correosospechoso@bancolombia.com.co].
+
+=C2=BFTienes dudas? Ll=C3=A1manos y las resolvemos.=20
+
+En Bogot=C3=A1 (601) 343 0000 [tel:(601)%20343%200000], Medell=C3=ADn (604)=
+ 510 9000
+[tel:(604)%20510%209000], Cali (602) 554 0505 [tel:(602)%20554%200505],
+Barranquilla (605) 361 8888 [tel:(605)%20361%208888], Bucaramanga (607) 697=
+ 2525
+[tel:(607)%20697%202525], Cartagena (605) 693 4400 [tel:(605)%20693%204400]=
+,
+Resto del pa=C3=ADs 018000912345 [tel:018000912345]. Sede principal Carrera=
+ 48 #
+26-85 Torre Norte. Medell=C3=ADn - Colombia Logo Facebook
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f6=
+75d20ba2c/img/facebook1.png]
+[https://www.facebook.com/bancolombia/] Logo X
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/64e68b61fa57f44=
+5dc99747d/img/X1.png]
+[https://twitter.com/Bancolombia] Logo Linkedin
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f6=
+75d20ba2c/img/linked.png]
+[https://www.linkedin.com/company/22690/] Logo Instagram
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f6=
+75d20ba2c/img/instagram1.png]
+[https://www.instagram.com/bancolombia/] Logo Youtube
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f6=
+75d20ba2c/img/youtube1.png]
+[https://www.youtube.com/user/GrupoBancolombia] Logo Whatsapp
+[http://bancolombia-email-wsuite.s3.amazonaws.com/templates/61154d31702d0f6=
+75d20ba2c/img/ICONO-WP.png]
+[https://api.whatsapp.com/send/?phone=3D573013536788&text&app_absent=3D0]
+
+------sm-b=_-?=_1-17828732024550.3807661598345353
+Content-Type: text/html
+Content-Transfer-Encoding: quoted-printable
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.=
+org/TR/html4/strict.dtd">
+<html xmlns=3D"http://www.w3.org/1999/xhtml" xmlns:v=3D"urn:schemas-microso=
+ft-com:vml" xmlns:o=3D"urn:schemas-microsoft-com:office:office" =
+class=3D"m-preview">
+
+<head>
+    <!-- NAME: TELL A STORY -->
+    <!--[if gte mso 15]>
+        <xml>
+            <o:OfficeDocumentSettings>
+            <o:AllowPNG/>
+            <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    <![endif]-->
+    <meta charset=3D"utf-8"/>
+    <meta name=3D"robots" content=3D"noindex, nofollow" />
+    <meta http-equiv=3D"X-UA-Compatible" content=3D"IE=3Dedge" />
+    <meta name=3D"viewport" content=3D"width=3Ddevice-width, =
+initial-scale=3D1" />
+    <meta name=3D"description" content=3D"Masiv - Vista email" />
+    <title>Alertas y Notificaciones</title>
+
+    <style type=3D"text/css" id=3D"resetStyles">
+    /*
+    * Reset Styles
+    */
+    img,
+    a img {
+        border: 0;
+        outline: none;
+        text-decoration: none;
+    }
+
+    body,
+    #bodyTable,
+    #bodyCell {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    @media only screen and (max-width: 480px) {
+        body {
+            width: 100% !important;
+            min-width: 100% !important;
+        }
+    }
+</style>
+<style type=3D"text/css" id=3D"clientStyles">
+    /*
+    * Client-specific CSS Styles
+    */
+    #outlook a {
+        padding: 0;
+    }
+
+    img {
+        -ms-interpolation-mode: bicubic;
+    }
+
+    table {
+        mso-table-lspace: 0pt;
+        mso-table-rspace: 0pt;
+    }
+
+    .ReadMsgBody {
+        width: 100%;
+    }
+
+    .ExternalClass {
+        width: 100%;
+    }
+
+    p,
+    a,
+    li,
+    td,
+    blockquote {
+        mso-line-height-rule: exactly;
+    }
+
+        a[href^=3Dtel],
+        a[href^=3Dsms] {
+            color: inherit;
+            cursor: default;
+            text-decoration: none;
+        }
+
+    p,
+    a,
+    li,
+    td,
+    body,
+    table,
+    blockquote {
+        -ms-text-size-adjust: 100%;
+        -webkit-text-size-adjust: 100%;
+    }
+
+    .ExternalClass,
+    .ExternalClass p,
+    .ExternalClass td,
+    .ExternalClass div,
+    .ExternalClass span,
+    .ExternalClass font {
+        line-height: 100%;
+    }
+
+    a[x-apple-data-detectors] {
+        color: inherit !important;
+        text-decoration: none !important;
+        font-size: inherit !important;
+        font-family: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+    }
+
+    /* Enable image placeholders */
+    @-moz-document url-prefix(http), url-prefix(file) {
+        img:-moz-broken {
+            -moz-force-broken-image-icon: 1;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    @media only screen and (max-width: 480px) {
+        p,
+        a,
+        li,
+        td,
+        body,
+        table,
+        blockquote {
+            -webkit-text-size-adjust: none !important;
+        }
+    }
+</style>
+</head>
+
+<body style=3D"margin:0;padding:0;-ms-text-size-adjust:100%;-webkit-text-si=
+ze-adjust:100%;background-color:transparent;width:100%!=
+important;height:100%!important">
+    <!--[if !gte mso 9]>-->
+    <span class=3D"mPreviewText" style=3D"display:none; font-size:0px; =
+line-height:0px; max-height:0px; max-width:0px; opacity:0; overflow:hidden;=
+ visibility:hidden; mso-hide:all;"></span>
+    <!--<![endif]-->
+    <center>
+        <table id=3D"bodyTable" align=3D"center" border=3D"0" =
+cellpadding=3D"0" cellspacing=3D"0" height=3D"100%" width=3D"100%" =
+bgcolor=3D"transparent" style=3D"border-collapse:collapse;mso-table-lspace:=
+0;mso-table-rspace:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100=
+%;margin:0;padding:0;background-color:transparent;width:100%!=
+important;height:100%!important">
+            <tbody>
+                <tr>
+                    <td id=3D"bodyCell" align=3D"center" valign=3D"top" =
+style=3D"mso-table-lspace:0;mso-table-rspace:0;-ms-text-size-adjust:100%;-w=
+ebkit-text-size-adjust:100%;margin:0;padding:0;width:100%!=
+important;height:100%!important">
+                        <!-- BEGIN TEMPLATE // -->
+                        <table border=3D"0" cellpadding=3D"0" =
+cellspacing=3D"0" style=3D"border-collapse:collapse;mso-table-lspace:0;mso-=
+table-rspace:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%">
+                            <tbody>
+                               =20
+                                <tr>
+                                    <td id=3D"templateBody" =
+align=3D"center" valign=3D"top" width=3D"100%" style=3D"mso-table-lspace:0;=
+mso-table-rspace:0;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%"=
+>
+                                        <table class=3D"templateContainer" =
+align=3D"center" border=3D"0" cellpadding=3D"0" cellspacing=3D"0" =
+width=3D"100%" bgcolor=3D"transparent" style=3D"border-collapse:collapse;ms=
+o-table-lspace:0;mso-table-rspace:0;-ms-text-size-adjust:100%;-webkit-text-=
+size-adjust:100%;background-color:transparent">
+                                            <tbody>
+                                                <tr>
+                                                    <td =
+id=3D"bodyContainer" class=3D"bodyContainer tpl-container" align=3D"center"=
+ valign=3D"top" style=3D"mso-table-lspace:0;mso-table-rspace:0;-ms-text-siz=
+e-adjust:100%;-webkit-text-size-adjust:100%">
+                                                        <!DOCTYPE =
+html><html> <head>  <title></title> </head> <body>  <div =
+style=3D'background-color:#ffffff; max-width: 600px; margin: auto;'>   <!=
+--[if mso]>         <table role=3D'presentation' width=3D'600' =
+cellspacing=3D'0' cellpadding=3D'0' border=3D'0' align=3D'center'>         =
+   <tr>               <td>                  <![endif]-->   <table =
+align=3D'center' bgcolor=3D'#FFFFFF' border=3D'0' cellpadding=3D'0' =
+cellspacing=3D'0' style=3D'max-width: 600px; width: 100%;' width=3D'600'>  =
+  <tbody>     <tr>      <td align=3D'center' valign=3D'top'>       <table =
+align=3D'center' bgcolor=3D'#ffffff' border=3D'0' cellpadding=3D'0' =
+cellspacing=3D'0' class=3D'table_100' style=3D'max-width:600px; =
+width:100%;background-color: #ffffff;' width=3D'600'>        <tbody>       =
+  <tr>          <td align=3D'left' valign=3D'top'>           <table =
+align=3D'left' border=3D'0' cellpadding=3D'0' cellspacing=3D'0' =
+width=3D'100%'>            <tbody>             <tr>              <td =
+height=3D'5' style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>          =
+   </tr>             <tr>              <td align=3D'left'>               =
+<h1 style=3D'font-family: Arial, Helvetica, sans-serif; font-size: 6px; =
+line-height: 9px; color: #DDDDDD; font-weight: normal;padding-left: =
+25px;margin: 0;'>                <br>               </h1>              =
+</td>             </tr>             <tr>              <td height=3D'5' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>             </tr>     =
+       </tbody>           </table>          </td>         </tr>        =
+</tbody>       </table>       <table align=3D'center' bgcolor=3D'#2C2A29' =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' class=3D'table_100' =
+style=3D'max-width:600px; width:100%;background-color: #2C2A29;' =
+width=3D'600'>        <tbody>         <tr>          <td align=3D'left' =
+style=3D'width: 100%;' valign=3D'top'>           <table align=3D'left' =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' width=3D'100%'>           =
+ <tbody>             <tr>              <td height=3D'17' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>             </tr>     =
+        <tr>              <td align=3D'left' style=3D'padding-left: 15px; =
+width: 50.2124%; vertical-align: bottom;' valign=3D'top' width=3D'175'><img=
+ alt=3D'Logo Bancolombia' border=3D'0' class=3D'fr-fic fr-dii' =
+height=3D'auto' src=3D'http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/605ce7f68622a5425353ea51/img/header-logo.png' =
+width=3D'175'></td>              <td class=3D'table_100' =
+width=3D'420'>&nbsp;</td>             </tr>             <tr>              =
+<td height=3D'17' style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>     =
+        </tr>            </tbody>           </table>          </td>        =
+ </tr>         <tr>          <td bgcolor=3D'#FDDA24' height=3D'4' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>         </tr>        =
+</tbody>       </table>       <table align=3D'center' bgcolor=3D'#00c389' =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'max-width:600px; =
+width:100%;' width=3D'100%'>        <tbody>         <tr>          <td =
+align=3D'center' valign=3D'top'>           <table align=3D'center' =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' class=3D'table_95' =
+width=3D'90%'>            <tbody>             <tr>              <td =
+height=3D'25' style=3D'font-size:1px; line-height:1px;'>&nbsp;</td>        =
+     </tr>             <tr>              <td align=3D'center' =
+valign=3D'top'>               <table align=3D'center' border=3D'0' =
+cellpadding=3D'0' cellspacing=3D'0' width=3D'100%'>                <tbody> =
+                <tr>                  <td align=3D'right' =
+valign=3D'top'><img alt=3D'yellow-icon' border=3D'0' class=3D'fr-fic =
+fr-dii' height=3D'auto' src=3D'https://bancolombia-email-wsuite.s3.=
+amazonaws.com/templates/66d9c32445bd2366ccb1b308/img/chulo.png' =
+width=3D'68'></td>                 </tr>                </tbody>           =
+    </table>              </td>             </tr>             <tr>         =
+     <td height=3D'25' style=3D'font-size: 1px; line-height: =
+1px;'>&nbsp;</td>             </tr>             <tr>              <td =
+align=3D'left' style=3D'font-family: Arial, sans-serif; font-size: 18px; =
+line-height: 25px; color: rgb(0, 0, 0); font-weight: normal;' =
+valign=3D'top'>&iexcl;Listo!</td>             </tr>             <tr>       =
+       <td align=3D'left' class=3D'text-yellow' style=3D'font-family: Arial=
+, Helvetica, sans-serif; font-size: 28px; line-height: 34px; color: rgb(0, =
+0, 0); font-weight: bold; box-sizing: border-box;'>Todo sali&oacute; bien =
+con tus movimientos</td>             </tr>             <tr>              =
+<td height=3D'38' style=3D'font-size:1px; line-height:1px;'>&nbsp;</td>    =
+         </tr>            </tbody>           </table>          </td>       =
+  </tr>        </tbody>       </table>       <table align=3D'center' =
+bgcolor=3D'#FFFFFF' border=3D'0' cellpadding=3D'0' cellspacing=3D'0' =
+style=3D'max-width:600px; width:100%;' width=3D'100%'>        <tbody>      =
+   <tr>          <td align=3D'center' valign=3D'top'>           <table =
+align=3D'center' border=3D'0' cellpadding=3D'0' cellspacing=3D'0' =
+class=3D'table_100' style=3D'max-width:600px; width:100%;' width=3D'600'>  =
+          <tbody>             <tr>              <td align=3D'center' =
+valign=3D'top'>               <table align=3D'center' border=3D'0' =
+cellpadding=3D'0' cellspacing=3D'0' width=3D'90%'>                <tbody>  =
+               <tr>                  <td height=3D'40' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>                 </tr> =
+                <tr>                  <td align=3D'left' =
+style=3D'line-height: 16px;' valign=3D'top'><b style=3D'color: rgb(0, 0, =
+0); font-family: Arial, sans-serif; font-size: 13px; font-weight: =
+normal;'>Bancolombia: ELIAM, recibiste una transferencia de ELIAM AVILA =
+CUESTA por $1,000.00 en tu cuenta *3128 conectada a la llave @eliam858 el =
+30/06/26 a las 21:33. Con llaves es de una y gratis. Dudas al 018000912345.=
+</b>                   <br>                  </td>                 </tr>   =
+              <tr>                  <td height=3D'30' style=3D'font-size: =
+1px; line-height: 1px;'>&nbsp;</td>                 </tr>                 =
+<tr>                  <td align=3D'center' valign=3D'middle'>              =
+     <table align=3D'center' border=3D'0' cellpadding=3D'0' =
+cellspacing=3D'0' width=3D'100%'>                    <tbody>               =
+      <tr>                      <td align=3D'center' =
+style=3D'vertical-align: middle; width: 10%;' valign=3D'top' =
+width=3D'50'><img src=3D'https://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/5fca95d6ce3ebf33a8d8c017/img/lamp.png' alt=3D'Icon 1' =
+class=3D'fr-fic fr-dii' width=3D'29' height=3D'53' border=3D'0'></td>      =
+                <td style=3D'width: 3%;'>                       <br>       =
+               </td>                      <td align=3D'left' =
+style=3D'font-family: Arial, sans-serif; font-size: 16px; line-height: =
+19px; color: rgb(0, 0, 0); font-weight: normal; vertical-align: middle; =
+width: 87%;' valign=3D'top'><strong>Para que enviar plata siempre sea un =
+&eacute;xito, estos consejos de seguridad:</strong></td>                   =
+  </tr>                     <tr>                      <td colspan=3D'3' =
+height=3D'18' style=3D'font-size: 1px; line-height: 1px; width: 99.=
+9999%;'>&nbsp;                       <br>                      </td>       =
+              </tr>                     <tr>                      <td =
+align=3D'center' style=3D'font-family: Arial, sans-serif; font-size: 21px; =
+line-height: 16px; color: rgb(0, 0, 0); font-weight: bold; vertical-align: =
+top; width: 9.8018%;' valign=3D'middle' width=3D'35'>&bull;</td>           =
+           <td align=3D'center' style=3D'width: 2.327%;' valign=3D'top' =
+width=3D'10'>&nbsp;                       <br>                      </td>  =
+                    <td align=3D'left' style=3D'font-family: Arial, =
+sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); =
+font-weight: normal; vertical-align: middle; width: 88.2884%;' =
+valign=3D'top'><strong>Revisa que la llave de la persona a qui&eacute;n le =
+transfieras plata,&nbsp;</strong>coincida con el nombre que aparece en la =
+pantalla de verificaci&oacute;n de nuestra app.</td>                     =
+</tr>                     <tr>                      <td colspan=3D'3' =
+height=3D'13' style=3D'font-size: 1px; line-height: 1px; width: 99.=
+9999%;'>&nbsp;                       <br>                      </td>       =
+              </tr>                     <tr>                      <td =
+align=3D'center' style=3D'font-family: Arial, sans-serif; font-size: 21px; =
+line-height: 16px; color: rgb(0, 0, 0); font-weight: bold; vertical-align: =
+top; width: 9.8018%;' valign=3D'middle' width=3D'35'>&bull;</td>           =
+           <td align=3D'center' style=3D'width: 2.327%;' valign=3D'middle' =
+width=3D'10'>&nbsp;                       <br>                      </td>  =
+                    <td align=3D'left' style=3D'font-family: Arial, =
+sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); =
+font-weight: normal; vertical-align: middle; width: 88.2884%;' =
+valign=3D'top'><strong>&iquest;Debes digitar el valor?</strong> Confirma =
+que est&eacute; bien.</td>                     </tr>                     =
+<tr>                      <td colspan=3D'3' height=3D'13' =
+style=3D'font-size: 1px; line-height: 1px; width: 99.9999%;'>&nbsp;        =
+               <br>                      </td>                     </tr>   =
+                  <tr>                      <td align=3D'center' =
+style=3D'font-family: Arial, sans-serif; font-size: 21px; line-height: =
+16px; color: rgb(0, 0, 0); font-weight: bold; vertical-align: top; width: 9=
+.8018%;' valign=3D'middle' width=3D'35'>&bull;</td>                      =
+<td align=3D'center' style=3D'width: 2.327%;' valign=3D'middle' =
+width=3D'10'>&nbsp;                       <br>                      </td>  =
+                    <td align=3D'left' style=3D'font-family: Arial, =
+sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); =
+font-weight: normal; vertical-align: middle; width: 88.2884%;' =
+valign=3D'top'><strong>Verifica que la persona a quien le transfieras plata=
+ s&iacute; la reciba.</strong> Comparte la pantalla de transferencia =
+exitosa y revisa tus movimientos.</td>                     </tr>           =
+          <tr>                      <td colspan=3D'3' height=3D'13' =
+style=3D'font-size: 1px; line-height: 1px; width: 99.9999%;'>&nbsp;        =
+               <br>                      </td>                     </tr>   =
+                  <tr>                      <td align=3D'center' =
+style=3D'font-family: Arial, sans-serif; font-size: 21px; line-height: =
+16px; color: rgb(0, 0, 0); font-weight: bold; vertical-align: top; width: 9=
+.8018%;' valign=3D'middle' width=3D'35'>&bull;</td>                      =
+<td align=3D'center' style=3D'width: 2.327%;' valign=3D'middle' =
+width=3D'10'>&nbsp;                       <br>                      </td>  =
+                    <td align=3D'left' style=3D'font-family: Arial, =
+sans-serif; font-size: 13px; line-height: 16px; color: rgb(0, 0, 0); =
+font-weight: normal; vertical-align: middle; width: 88.2884%;' =
+valign=3D'top'>Este proceso de elecci&oacute;n de llaves es diferente al =
+que operar&aacute; con Bre-B, el Sistema de Pagos <a =
+href=3D'https://ustracker.sendclean.net/c/?u=3D526d16186fb7f3c342755d2a3061=
+80a04efebcb8d5f202e0b84fab1b48c2080278bbfe50229c0dff9805c8de4131c10325c344e=
+0d2f66c6af5725656b697e29c922d9c707ec43d12d2073b53883943cf&p=3Dksssbkte.=
+ksdbeRRd--331286602-E1943177-287F-4AA0-ABC5-7746F97492AD.2317.1&e=3Ds1' =
+rel=3D'noopener noreferrer' style=3D'color: #000000; font-size: 13px; =
+line-height: 16px; font-weight: bold;' target=3D'_blank'>Inmediatos</a> del=
+ Banco de la Rep&uacute;blica.</td>                     </tr>              =
+      </tbody>                   </table>                  </td>           =
+      </tr>                 <tr>                  <td height=3D'35' =
+style=3D'font-size: 1px; line-height: 1px;'>&nbsp;</td>                 =
+</tr>                 <tr>                  <td align=3D'left' =
+style=3D'font-family: Arial, sans-serif; font-size: 16px; line-height: =
+19px; color: rgb(0, 0, 0); font-weight: normal; text-align: center;' =
+valign=3D'top'><strong>La seguridad la logramos entre todos.=
+&nbsp;</strong></td>                 </tr>                 <tr>            =
+      <td height=3D'35' style=3D'font-size: 1px; line-height: =
+1px;'>&nbsp;</td>                 </tr>                 <tr>               =
+   <td align=3D'left' style=3D'font-family: Arial, sans-serif; font-size: =
+13px; line-height: 16px; color: rgb(0, 0, 0); font-weight: normal; =
+text-align: left;' valign=3D'top'>Tu equipo Bancolombia.</td>              =
+   </tr>                 <tr>                  <td height=3D'50' =
+style=3D'font-size: 1px; line-height: 1px;'>&nbsp;</td>                 =
+</tr>                </tbody>               </table>              </td>    =
+         </tr>            </tbody>           </table>           <!-- Footer=
+ -->           <table align=3D'center' bgcolor=3D'#FFFFFF' border=3D'0' =
+cellpadding=3D'0' cellspacing=3D'0' style=3D'max-width:600px; width:100%;' =
+width=3D'600'>            <tbody>             <tr>              <td =
+align=3D'center' valign=3D'top'>               <table align=3D'center' =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D'max-width:600px; =
+width:100%;' width=3D'600'>                <tbody>                 <tr>    =
+              <td align=3D'center' valign=3D'top'>                   <table=
+ border=3D'0' cellpadding=3D'0' cellspacing=3D'0' width=3D'100%'>          =
+          <tbody>                     <tr>                      <td =
+align=3D'center' valign=3D'top'>                       <table border=3D'0' =
+cellpadding=3D'0' cellspacing=3D'0' width=3D'100%'>                        =
+<tbody>                         <tr>                          <td =
+align=3D'center' valign=3D'top' width=3D'6%'><img src=3D'http://bancolombia=
+-email-wsuite.s3.amazonaws.com/templates/6064f921ac0d9878ad5f633e/img/legal=
+.png' width=3D'8.2' height=3D'auto' align=3D'Legal' border=3D'0' =
+class=3D'fr-fic fr-dii' alt=3D'Vigilado Superintendencia Financiera de =
+Colombia Bancolombia_S.A. Establecimiento Bancario'></td>                  =
+        <td align=3D'center' valign=3D'top'>                           =
+<table border=3D'0' cellpadding=3D'0' cellspacing=3D'0' style=3D' =
+padding:10px 0px;' width=3D'100%'>                            <tbody>      =
+                       <tr>                              <td height=3D'45' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>                       =
+      </tr>                             <tr>                              =
+<td align=3D'center' style=3D'width: 50.2124%; vertical-align: bottom; =
+text-align: center;' valign=3D'top' width=3D'175'><img =
+src=3D'http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/605ce7f68622a5425353ea51/img/footer-logo.png' width=3D'175' =
+height=3D'auto' border=3D'0' alt=3D'Logo Bancolombia' class=3D'fr-fic =
+fr-dii'></td>                             </tr>                            =
+ <tr>                              <td height=3D'40' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>                       =
+      </tr>                             <tr>                              =
+<td style=3D'padding-top:0px;'>                               <table =
+border=3D'0' cellpadding=3D'0' cellspacing=3D'0' width=3D'100%'>           =
+                     <tbody>                                 <tr>          =
+                        <td align=3D'center' valign=3D'top'><img =
+src=3D'http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/6064f921ac0d9878ad5f633e/img/line.png' alt=3D'footer-logo' =
+width=3D'100%' height=3D'2' style=3D'max-width: 538px;' border=3D'0' =
+class=3D'fr-fic fr-dii'></td>                                 </tr>        =
+                        </tbody>                               </table>    =
+                          </td>                             </tr>          =
+                   <tr>                              <td =
+style=3D'font-family: Arial, Helvetica, sans-serif; font-size: 9px; =
+line-height: 12px; color: #000; font-weight: normal; text-align: =
+left;padding-top: 41px;'>                               <p style=3D'margin:=
+ unset;'>Por tu seguridad, desde <strong>Bancolombia&nbsp;</strong>nunca te=
+ solicitaremos tus datos personales, como usuario y clave; ni tus datos =
+bancarios, como n&uacute;meros de tarjetas de cr&eacute;dito, =
+c&oacute;digos de seguridad y plazos. Ninguno de nuestros agentes te =
+pedir&aacute; ni por escrito ni por tel&eacute;fono este tipo de =
+informaci&oacute;n. Para comprobar la autenticidad de este correo =
+electr&oacute;nico o cualquier otra comunicaci&oacute;n que recibas de =
+nosotros, reenv&iacute;alo a <a href=3D'mailto:correosospechoso@bancolombia=
+.com.co' name=3D'qLink15' overwrite=3D'false' rel=3D'noopener noreferrer' =
+style=3D'text-decoration:underline;color:#000; font-family:Arial, =
+sans-serif;font-size: 9px; font-weight: bold;' target=3D'_blank' =
+xt=3D'SPCLICK'>correosospechoso@bancolombia.com.co</a>.</p>                =
+              </td>                             </tr>                      =
+       <tr>                              <td style=3D'font-family: Arial, =
+Helvetica, sans-serif; font-size: 9px; line-height: 12px; color: rgb(0, 0, =
+0); font-weight: normal; text-align: left; padding-top: =
+22px;'>&iquest;Tienes dudas? Ll&aacute;manos y las resolvemos.             =
+                  <br>                               <br>En Bogot&aacute; =
+<a href=3D'tel:(601)%20343%200000' name=3D'qLink14' overwrite=3D'false' =
+rel=3D'noopener noreferrer' style=3D'font-family: Arial, Helvetica, =
+sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight:=
+ bold; text-align: left;text-decoration: none;' target=3D'_blank' =
+xt=3D'SPCLICK'>(601) 343 0000</a>, Medell&iacute;n <a =
+href=3D'tel:(604)%20510%209000' name=3D'qLink13' overwrite=3D'false' =
+rel=3D'noopener noreferrer' style=3D'font-family: Arial, Helvetica, =
+sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight:=
+ bold; text-align: left;text-decoration: none;' target=3D'_blank' =
+xt=3D'SPCLICK'>(604) 510 9000</a>, Cali <a href=3D'tel:(602)%20554%200505' =
+name=3D'qLink12' overwrite=3D'false' rel=3D'noopener noreferrer' =
+style=3D'font-family: Arial, Helvetica, sans-serif; font-size: 9px; =
+line-height: 16px; color: #000000; font-weight: bold; text-align: =
+left;text-decoration: none;' target=3D'_blank' xt=3D'SPCLICK'>(602) 554 =
+0505</a>, Barranquilla <a href=3D'tel:(605)%20361%208888' name=3D'qLink11' =
+overwrite=3D'false' rel=3D'noopener noreferrer' style=3D'font-family: Arial=
+, Helvetica, sans-serif; font-size: 9px; line-height: 16px; color: #000000;=
+ font-weight: bold; text-align: left;text-decoration: none;' =
+target=3D'_blank' xt=3D'SPCLICK'>(605) 361 8888</a>, Bucaramanga <a =
+href=3D'tel:(607)%20697%202525' name=3D'qLink10' overwrite=3D'false' =
+rel=3D'noopener noreferrer' style=3D'font-family: Arial, Helvetica, =
+sans-serif; font-size: 9px; line-height: 16px; color: #000000; font-weight:=
+ bold; text-align: left;text-decoration: none;' target=3D'_blank' =
+xt=3D'SPCLICK'>(607) 697 2525</a>, Cartagena <a href=3D'tel:(605)%20693%204=
+400' name=3D'qLink9' overwrite=3D'false' rel=3D'noopener noreferrer' =
+style=3D'font-family: Arial, Helvetica, sans-serif; font-size: 9px; =
+line-height: 16px; color: #000000; font-weight: bold; text-align: =
+left;text-decoration: none;' target=3D'_blank' xt=3D'SPCLICK'>(605) 693 =
+4400</a>, Resto del pa&iacute;s <a href=3D'tel:018000912345' =
+name=3D'qLink8' overwrite=3D'false' rel=3D'noopener noreferrer' =
+style=3D'font-family: Arial, Helvetica, sans-serif; font-size: 9px; =
+line-height: 16px; color: #000000; font-weight: bold; text-align: =
+left;text-decoration: none;' target=3D'_blank' xt=3D'SPCLICK'>018000912345<=
+/a>. Sede principal Carrera 48 # 26-85 Torre Norte. Medell&iacute;n - =
+Colombia</td>                             </tr>                            =
+ <tr>                              <td height=3D'40' =
+style=3D'font-size:1px;line-height:1px;'>&nbsp;</td>                       =
+      </tr>                             <tr>                              =
+<td>                               <table align=3D'center' border=3D'0' =
+cellpadding=3D'0' cellspacing=3D'0' class=3D'table-container' =
+style=3D'max-width: 260px;' width=3D'260'>                                =
+<tbody>                                 <tr>                               =
+   <td align=3D'left' class=3D'button-wrapper' valign=3D'top'>             =
+                      <a href=3D'https://ustracker.sendclean.net/c/?=
+u=3D8f0b4555425d62a8c445440c2b6715b47ad0380c8dd6d3fcc533421f2386adcd3483e60=
+8c3cc5ae65fb4438d67fe36b4&p=3Dksssbkte.ksdbeRRd--331286602-E1943177-287F-4A=
+A0-ABC5-7746F97492AD.2317.1&e=3Ds1' name=3D'qLink6' overwrite=3D'true' =
+rel=3D'noopener noreferrer' target=3D'_blank' xt=3D'SPCLICK'><img =
+class=3D'banner fr-fic fr-dii' src=3D'http://bancolombia-email-wsuite.s3.=
+amazonaws.com/templates/61154d31702d0f675d20ba2c/img/facebook1.png' =
+width=3D'52' height=3D'21' style=3D'max-width: 52px;' border=3D'0' =
+alt=3D'Logo Facebook'></a>                                  </td>          =
+                        <td align=3D'left' class=3D'button-wrapper' =
+valign=3D'top'>                                   <a =
+href=3D'https://ustracker.sendclean.net/c/?u=3D147691dd0db18e418e7f0c900656=
+e8fd35b55f76269611cfdfd12f78ada8078c9705606272ae75096f4dafae8f5aa797&p=3Dks=
+ssbkte.ksdbeRRd--331286602-E1943177-287F-4AA0-ABC5-7746F97492AD.2317.=
+1&e=3Ds1' name=3D'qLink5' overwrite=3D'true' target=3D'_blank' =
+xt=3D'SPCLICK'><img class=3D'banner fr-fic fr-dii' src=3D'http://bancolombi=
+a-email-wsuite.s3.amazonaws.com/templates/64e68b61fa57f445dc99747d/img/X1.=
+png' width=3D'52' height=3D'21' style=3D'max-width: 52px;' border=3D'0' =
+alt=3D'Logo X'></a>                                  </td>                 =
+                 <td align=3D'left' class=3D'button-wrapper' =
+valign=3D'top'>                                   <a =
+href=3D'https://ustracker.sendclean.net/c/?u=3D8f0b4555425d62a8c445440c2b67=
+15b473c8494c86ac5ef85e50722d31e5b3f8f6bdb5dc5466d04a641a625933a6707adfd61c8=
+1235f67dd00883e961bad0285&p=3Dksssbkte.ksdbeRRd--331286602-E1943177-287F-4A=
+A0-ABC5-7746F97492AD.2317.1&e=3Ds1' name=3D'qLink4' overwrite=3D'true' =
+target=3D'_blank' xt=3D'SPCLICK'><img class=3D'banner fr-fic fr-dii' =
+src=3D'http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/61154d31702d0f675d20ba2c/img/linked.png' width=3D'51' =
+height=3D'21' style=3D'max-width: 51px;' border=3D'0' alt=3D'Logo =
+Linkedin'></a>                                  </td>                      =
+            <td align=3D'left' class=3D'button-wrapper' valign=3D'top'>    =
+                               <a href=3D'https://ustracker.sendclean.=
+net/c/?u=3D8f0b4555425d62a8c445440c2b6715b4eaae350437d74256872b39d76e69c84a=
+fe52b82155575044495d0a0f34b7185bf823670cc1aad50d2d89ba101fc1fb55&p=3Dksssbk=
+te.ksdbeRRd--331286602-E1943177-287F-4AA0-ABC5-7746F97492AD.2317.1&e=3Ds1' =
+name=3D'qLink3' overwrite=3D'true' target=3D'_blank' xt=3D'SPCLICK'><img =
+class=3D'banner fr-fic fr-dii' src=3D'http://bancolombia-email-wsuite.s3.=
+amazonaws.com/templates/61154d31702d0f675d20ba2c/img/instagram1.png' =
+width=3D'52' height=3D'21' style=3D'max-width: 52px;' border=3D'0' =
+alt=3D'Logo Instagram'></a>                                  </td>         =
+                         <td align=3D'left' class=3D'button-wrapper' =
+valign=3D'top'>                                   <a =
+href=3D'https://ustracker.sendclean.net/c/?u=3D8f0b4555425d62a8c445440c2b67=
+15b4be726dbe8b3d4860773e55c4e012bbab186119a1ae559807e8567c455d4a2fad9705606=
+272ae75096f4dafae8f5aa797&p=3Dksssbkte.ksdbeRRd--331286602-E1943177-287F-4A=
+A0-ABC5-7746F97492AD.2317.1&e=3Ds1' name=3D'qLink2' overwrite=3D'true' =
+target=3D'_blank' xt=3D'SPCLICK'><img class=3D'banner fr-fic fr-dii' =
+src=3D'http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/61154d31702d0f675d20ba2c/img/youtube1.png' width=3D'52' =
+height=3D'21' style=3D'max-width: 52px;' border=3D'0' alt=3D'Logo =
+Youtube'></a>                                  </td>                       =
+           <td align=3D'left' class=3D'button-wrapper' valign=3D'top'>     =
+                              <a href=3D'https://ustracker.sendclean.net/c/=
+?u=3Dc78ec210a1714a24db4928a27ad54eb668193fa9be5b5ed48c7b86103d8a7d013b3a22=
+5ad8085fb25b8261fef48dc43c088a1d2b891edc4196a3a08df4949f14453205e37bb1cf04d=
+d6fc7e17132fdc05d961da6e5f1479362b0056f38674feb&p=3Dksssbkte.=
+ksdbeRRd--331286602-E1943177-287F-4AA0-ABC5-7746F97492AD.2317.1&e=3Ds1' =
+name=3D'qLink1' overwrite=3D'false' rel=3D'noopener noreferrer' =
+target=3D'_blank' xt=3D'SPCLICK'><img class=3D'banner fr-fic fr-dii' =
+src=3D'http://bancolombia-email-wsuite.s3.amazonaws.=
+com/templates/61154d31702d0f675d20ba2c/img/ICONO-WP.png' width=3D'52' =
+height=3D'21' style=3D'    margin-left: -10px;max-width: 52px;' =
+border=3D'0' alt=3D'Logo Whatsapp'></a>                                  =
+</td>                                 </tr>                                =
+</tbody>                               </table>                            =
+  </td>                             </tr>                            =
+</tbody>                           </table>                          </td> =
+                         <td width=3D'5%'>&nbsp;</td>                      =
+   </tr>                        </tbody>                       </table>    =
+                  </td>                     </tr>                    =
+</tbody>                   </table>                  </td>                 =
+</tr>                </tbody>               </table>              </td>    =
+         </tr>            </tbody>           </table>           <table =
+align=3D'center' bgcolor=3D'#FFFFFF' border=3D'0' cellpadding=3D'0' =
+cellspacing=3D'0' style=3D'max-width:600px; width:100%;' width=3D'100%'>   =
+         <tbody>             <tr>              <td align=3D'center' =
+valign=3D'top'>               <table align=3D'center' border=3D'0' =
+cellpadding=3D'0' cellspacing=3D'0' width=3D'100%'>                <tbody> =
+                <tr>                  <td height=3D'32' style=3D'font-size:=
+ 1px; line-height: 1px;'>&nbsp;</td>                 </tr>                =
+</tbody>               </table>               <!-- Footer -->              =
+</td>             </tr>            </tbody>           </table>           <!=
+-- Footer -->           <!-- Footer -->           <!--[if mso]>            =
+               </td>                        </tr>                  </table>=
+                  <![endif]-->          </td>         </tr>        </tbody>=
+       </table>       <meta charset=3D"utf-8"/>       <meta =
+name=3D'viewport' content=3D'width=3Ddevice-width, initial-scale=3D1'>     =
+  <!-- <title>Fluid Grid Master</title> -->       <style type=3D'text/css'>=
+        /* Outlines the grid, remove when sending */                table =
+td {}        /* CLIENT-SPECIFIC STYLES */                body,        table=
+,        td,        a {         -webkit-text-size-adjust: 100%;         =
+-ms-text-size-adjust: 100%;        }                table,        td {     =
+    mso-table-lspace: 0pt;         mso-table-rspace: 0pt;        }         =
+       img {         -ms-interpolation-mode: bicubic;        }        /* =
+RESET STYLES */                img {         border: 0;         outline: =
+none;         text-decoration: none;        }                body {        =
+ margin: 0 !important;         padding: 0 !important;         width: 100% !=
+important;        }        /* iOS BLUE images */                =
+a[x-apple-data-detectors] {         color: inherit !important;         =
+text-decoration: none !important;         font-size: inherit !important;   =
+      font-family: inherit !important;         font-weight: inherit !=
+important;         line-height: inherit !important;        }        /* =
+ANDROID CENTER FIX */                div[style*=3D'margin: 16px 0;'] {     =
+    margin: 0 !important;        }                @media screen and =
+(max-width: 600px) {         .border--top {          border-left: 0 !=
+important;          border-top: 2px solid #707070 !important;          =
+padding-top: 15px !important;         }         .banner {          width: =
+100% !important;          height: auto !important;         }         .=
+table-container {          width: 100% !important;         }         .=
+mobile-space {          width: 15px !important;         }         .=
+mobile-space-2 {          width: 0px !important;         }         .=
+content-row {          display: inline-block;         }         .table_100 =
+{          width: 100% !important;         }         .table_85 {          =
+width: 85% !important;         }         .hide_mobile {          display: =
+none !important;         }         .text-yellow {          font-size: 25px =
+!important;          line-height: 28px !important;         }         .=
+text-white {          font-size: 20px !important;          line-height: =
+23px !important;         }         .table_100.cutom-tbl {          width: =
+100% !important;          max-width: 100% !important;         }         .=
+mobile_height {          height: 10px !important;         }         .=
+align_center {          text-align: center !important;         }         .=
+cta_mobile {          width: 200px !important;         }         .blue_text=
+ {          font-size: 13px !important;          padding: 10px 5px !=
+important;         }        }                @media screen and (max-width: =
+480px) {         .banner {          width: 100% !important;          =
+height: auto !important;         }         .text-header {          =
+text-align: center !important;          padding: 0px 15px 0px 15px !=
+important;         }         .texto_producto {          text-align: center =
+!important;         }         .table-container {          width: 100% !=
+important;         }         .mobile-space {          width: 15px !=
+important;         }         .mobile-space-2 {          width: 0px !=
+important;         }         .content-row {          display: inline-block;=
+         }         .table_100 {          width: 100% !important;         } =
+        .table_85 {          width: 85% !important;         }         .=
+hide_mobile {          display: none !important;         }         .=
+text-yellow {          font-size: 25px !important;          line-height: =
+28px !important;         }         .text-white {          font-size: 20px !=
+important;          line-height: 23px !important;         }         .=
+td-width {          width: 65px !important;         }         .=
+td-width-space {          width: 15px !important;         }         .=
+mobile_height {          height: 10px !important;         }         .=
+align_center {          text-align: center !important;         }         .=
+cta_mobile {          width: 200px !important;         }         .blue_text=
+ {          font-size: 13px !important;          padding: 10px 5px !=
+important;         }         .txt-left-mob {          text-align: left !=
+important;         }         .pb-27 {          padding-bottom: 0px !=
+important;         }        }       </style>      </td>     </tr>    =
+</tbody>   </table></div> <img src=3D"https://ustracker.sendclean.net/o/?=
+p=3Dksssbkte.ksdbeRRd--331286602-E1943177-287F-4AA0-ABC5-7746F97492AD.2317.=
+1" height=3D"1" width=3D"1"/>
+</body></html>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                               =20
+                            </tbody>
+                        </table>
+                        <!-- // END TEMPLATE -->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </center>
+</body>
+</html>
+
+
+------sm-b=_-?=_1-17828732024550.3807661598345353--

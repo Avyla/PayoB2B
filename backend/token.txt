@@ -1,0 +1,2 @@
+◇ injected env (0) from .env // tip: ⌘ enable debugging { debug: true }
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjoiMWU3NjM5ZTMtZTczNi00NjJhLWFjZjctYzJkZTdjODgyZTdiIiwiaWRfY29tZXJjaW8iOiI2Yzg5YjQyNy1iNmZkLTRkNDEtODkxOC05ODk4Mjc4YWFlYTkiLCJlbWFpbCI6ImFkbWluQHBydWViYS5jb20iLCJyb2wiOiJBRE1JTklTVFJBRE9SIiwiaWF0IjoxNzgyNjc5NDY4LCJleHAiOjE3ODI3NjU4Njh9.ppiS61hS754YExT6SS9taTQqLzTFcpT0G6Q7xHcU0pk

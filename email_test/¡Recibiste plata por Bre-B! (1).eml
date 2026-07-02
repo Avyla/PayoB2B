@@ -1,0 +1,160 @@
+Delivered-To: eliamavila780@gmail.com
+Received: by 2002:a05:6a11:4388:b0:735:3e0c:929d with SMTP id mk8csp129511pxb;
+        Mon, 29 Jun 2026 11:24:09 -0700 (PDT)
+X-Received: by 2002:a5d:5d8a:0:b0:45e:e1a4:c4c3 with SMTP id ffacd0b85a97d-47550cabc67mr496710f8f.15.1782757449515;
+        Mon, 29 Jun 2026 11:24:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1782757449; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Ai9l3oOQoEVDzCsgte5qP+TWRxwctjV2pjVPRq/JyFM24gimvGP3Ske5VGm4eCVI1q
+         yzgeQmofb4Jo3iUAAXTg/rzoDj4jf46YGYQPaS5a3UaMUUcBATM77iGlaXQ5A/9XdL0Q
+         WvzfXVC27Efv7wjnS5XrMeofqr9G0sq2gBEcQFb05rL9sdL8YIia1a1zLF+6t9FViqym
+         ntlbwO7m0avlKlm19M/xQ2r4K+7urQxROB6eRidF61OSl6jd6a7NYNiCA/Nsxf2qVsix
+         2i2CHExJ5YRuYinj8n7vYLJ3GdGGkNa69y9QzwXw4Zt/ECx0gFQSvVvxlHgxT9ylaj1R
+         5Ywg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=list-unsubscribe:list-unsubscribe-post:mime-version:subject
+         :message-id:to:from:date:dkim-signature;
+        bh=KKLtJADWVxOqC56PvQo1mq1hNXfnRHUa408/yzP3HH0=;
+        fh=bkD/lHfjw4a02dU3Z4+Cay8qu6+E0EoXmG2l4Sc0WDY=;
+        b=cU+wjSJtHg9QWpux+qub2AFXixT0XsvhHqbz8NBckIpGXebz2zYoJNTauIzdYciXLc
+         73E6hy/kVZ2X5AiJopwGcNCUwlzTvBpgEhUZgEwhAtNTL7oLevX5DHnyvDSlwZZv2bGy
+         uDSIvuShyCsO5VxRwo8QIG5sIwOV62ICSp/lGYc42I8g+8C3dEkZdGeGCtd705WI61n7
+         JULYRAv8fA0k3egbJnl6xOdUnDrZqp86LB1f+PxKxsivrcyHAdSZ075xlgCMU5Ru8eS1
+         NottLumcIQdd/livYWkruq1iuGwX4M8CuVfe9YP596YRwINCIf0TjFRtGWJKAlDJu2mG
+         dzEQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@notificaciones.nequi.com.co header.s=smtp1 header.b="emZ/9xcD";
+       spf=pass (google.com: domain of ib_bounces-eliamavila780=gmail.com@notificaciones.nequi.com.co designates 83.166.78.64 as permitted sender) smtp.mailfrom="ib_bounces-eliamavila780=gmail.com@notificaciones.nequi.com.co";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nequi.com.co
+Return-Path: <ib_bounces-eliamavila780=gmail.com@notificaciones.nequi.com.co>
+Received: from smtp3064-fr4.mail-messaging.com (smtp3064-fr4.mail-messaging.com. [83.166.78.64])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-474905f3f6bsi3820162f8f.237.2026.06.29.11.24.09
+        for <eliamavila780@gmail.com>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Jun 2026 11:24:09 -0700 (PDT)
+Received-SPF: pass (google.com: domain of ib_bounces-eliamavila780=gmail.com@notificaciones.nequi.com.co designates 83.166.78.64 as permitted sender) client-ip=83.166.78.64;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@notificaciones.nequi.com.co header.s=smtp1 header.b="emZ/9xcD";
+       spf=pass (google.com: domain of ib_bounces-eliamavila780=gmail.com@notificaciones.nequi.com.co designates 83.166.78.64 as permitted sender) smtp.mailfrom="ib_bounces-eliamavila780=gmail.com@notificaciones.nequi.com.co";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=nequi.com.co
+DKIM-Signature: q=dns/txt; a=rsa-sha256; b=emZ/9xcDzSUoHVSigykxOxG4oVaJjli/1wzakZbyOoCBpFO73GnUSF4qIeLGgNkEOETVK3vTy2rdCWxipJGyE6Ju0MUeMmU7LOSUPUGNoNL+fkfhoUIvum6yj8ayx3i+2YoiK2xhUbO/B4dnMqe64SN7D3c0vAHuqZlKy1y2+2k=; s=smtp1; c=relaxed/relaxed; t=1782757449; d=notificaciones.nequi.com.co; v=1; bh=KKLtJADWVxOqC56PvQo1mq1hNXfnRHUa408/yzP3HH0=; h=Content-Type:MIME-Version:Date:From:To:Message-ID:Subject:List-Unsubscribe-Post:List-Unsubscribe;
+Received: from BBD246B949C208E7E7F5B788E4442913 by D36A317148604F45B2A6443225DAF8F8; Mon, 29 Jun 2026 18:24:08 +0000 (UTC)
+Date: Mon, 29 Jun 2026 18:24:09 +0000 (UTC)
+From: notificaciones@nequi.com.co
+To: eliamavila780@gmail.com
+Message-ID: <6c66a21ecde9411075897a51ef8810d861bc71e4a8d3cc9938628048b7cf1932@nequi.com.co>
+Subject: =?UTF-8?Q?=C2=A1Recibiste_plata_por_Bre-B!?=
+MIME-Version: 1.0
+X-IB-WebHookData: 9456FED2B9793329958FD2D854F2098CF13C8FDBF620E70ECD3004B4D830CF5C6924ED144DAA786BFA0412EBCE589C50C9C71C58EF5618CD8373DDA7C58B1898F52FD6712D87254E86F75A74A435311ECB5389B31614998F3911CD4FC819F1C82F2A08DB3B0405A507771B3E72A20496A05ED09B8FF56C4F5916A2D8F2C7607CF3BC824F2EE7D5A84A4A6DC930CF628D8C80F21F2F92C5D879673243B00A411E50C57243CEEDB944BE65AE7158FE2C591D13329EE3D205FB01792EC279F5C5D1E0ADBECA0839183F5DCCB3FBEE922B42724BE7EDB04DF9C6AAF8CB086700A9E9C8868E281087B10B8646CC2BE760FA30EE4BE2749954C2B8167500B3E59FB1992660B2BBEFBFA83C5E1649F3082F217D34F5468D65420E65AB3D2F56C7F4C9AFFB150AC7E74DFBC93343B982D13690D304963B587315F483C4C6234445721C4163F086FEC77A0CDC5438CC821B0BAF22FF14AD9DE76E9B3C3C7FC862B61712238F64A99DF7B78AA43496C4965234742578B4418044800489B0026B609ED95EF25BE651F9545A6684876BFA5816BD0C1075E614A0CEA88BAED58E3910516CE5FB8E51B17EB1903EC767101F109A6E809066F469FA9D5A09F38C1443CA74B1D708F599694EDEBBC29204E8E0814D25D068E6A4C3996F683A16560820
+X-IB-WebHookData2: 754F45A672931B40A3A4F9E0477E6FB665AC833264AA250B145A365344301969D16366AADCAEB0663FE3DF64EEF534E67E450F36D58C55C840CA2E4D9AF5EAC23D3D4D7362C7E50454EE4A74A0DEFC12A19352D6BCA109FDD725D517250A531ECC5470C5CC8A6F9D806B305E27D3235CF83E7447CB
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+List-Unsubscribe: <https://tracking.notificaciones.nequi.com.co/tracking/1/unsubscribeUser/zDXE8rJXa81GEQb9KV6Wk4RfGBLUTOPMSGc3AFeZQzrNqu34GgS5B31ayBJtg-zfHYfjGajoZQ5A7Nm40AMueCNM8kcAhmWSEqjHAnIDS5SKNHRIJlfyII6fc9sJt4AIq9fJ1MZiFKoXZyxzq_X_LAP3G3iz7bJt2MWsnlF-RT3dRVV5CNkhaLcxvc8CNgm_LIPHeoU0Nm_j3u1TTsEnEE5qYxLKKy8xvDKk8QclsxI4wVXr_8M8wrvQec5KFuj4c0xYH2ksW5-VV3fTis5Si5SEUUQ7f4CpL-IkoaZlkT0=>, <mailto:unsubscribe@notificaciones.nequi.com.co?subject=unsubscribe|43163197311CC01AB28FD99C6610485C|zDXE8rJXa81GEQb9KV6Wk4RfGBLUTOPMSGc3AFeZQzrNqu34GgS5B31ayBJtg-zfHYfjGajoZQ5A7Nm40AMueCNM8kcAhmWSEqjHAnIDS5SKNHRIJlfyII6fc9sJt4AIq9fJ1MZiFKoXZyxzq_X_LAP3G3iz7bJt2MWsnlF-RT3dRVV5CNkhaLcxvc8CNgm_LIPHeoU0Nm_j3u1TTsEnEE5qYxLKKy8xvDKk8QclsxI4wVXr_8M8wrvQec5KFuj4c0xYH2ksW5-VV3fTis5Si5SEUUQ7f4CpL-IkoaZlkT0=>
+X-IB-Sending-Ip: 83.166.78.64
+Content-Type: multipart/alternative; boundary="=--1850883348_1782757449170_2569344"
+
+--=--1850883348_1782757449170_2569344
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<html><head><meta=20charset=3D"utf-8"=20/><meta=20name=3D"viewport"=20conte=
+nt=3D"width=3Ddevice-width,=20initial-scale=3D1=2E0,=20maximum-scale=3D1=2E=
+0,=20user-scalable=3Dno"=20/><title>NEQUI</title><link=20rel=3D"preconnect"=
+=20href=3D"https://fonts=2Egoogleapis=2Ecom"=20/><link=20rel=3D"preconnect"=
+=20href=3D"https://fonts=2Egstatic=2Ecom"=20crossorigin=20/><link=20href=3D=
+"https://fonts=2Egoogleapis=2Ecom/css2?family=3DManrope:wght@400;600;700&di=
+splay=3Dswap"=20rel=3D"stylesheet"=20/></head><body=20style=3D"margin:=200;=
+=20padding:=200"><img=20alt=3D""=20src=3D"https://tracking=2Enotificaciones=
+=2Enequi=2Ecom=2Eco/tracking/1/open/zDXE8rJXa81GEQb9KV6Wk4RfGBLUTOPMSGc3AFe=
+ZQzrNqu34GgS5B31ayBJtg-zfHYfjGajoZQ5A7Nm40AMueCNM8kcAhmWSEqjHAnIDS5SKNHRIJl=
+fyII6fc9sJt4AIq9fJ1MZiFKoXZyxzq_X_LAP3G3iz7bJt2MWsnlF-RT3dRVV5CNkhaLcxvc8CN=
+gm_LIPHeoU0Nm_j3u1TTsEnEE5qYxLKKy8xvDKk8QclsxI4wVXr_8M8wrvQec5KFuj4c0xYH2ks=
+W5-VV3fTis5Si5SEUUQ7f4CpL-IkoaZlkT0=3D"=20width=3D"1"=20height=3D"1"><table=
+=20width=3D"100%"=20align=3D"center"=20border=3D"0"=20cellspacing=3D"0"=20c=
+ellpadding=3D"0"=20style=3D"max-width:=20768px"><tr><td><table=20width=3D"1=
+00%"=20align=3D"center"=20border=3D"0"=20cellspacing=3D"0"=20cellpadding=3D=
+"0"=20style=3D"max-width:=20670px"><tr><td=20style=3D"padding:=200px=205%">=
+<table=20width=3D"100%"=20align=3D"center"=20cellspacing=3D"0"=20cellpaddin=
+g=3D"0"=20border=3D"0"=20style=3D"max-width:=20550px;=20font-family:=20Manr=
+ope,=20sans-serif;=20font-size:=2016px;=20color:=20#210049;=20text-align:=
+=20center;"><tr><td=20style=3D"padding-top:=2050px;=20text-align:=20center"=
+><img=20src=3D"https://mail-nequi-co=2Es3=2Eamazonaws=2Ecom/facturas/factur=
+as_babel=2Epng"=20alt=3D"Nequi"=20style=3D"display:=20block;=20margin:=200=
+=20auto"=20/></td></tr><tr><td=20style=3D"font-size:=2018px;=20font-weight:=
+=20bold;=20color:=20#200020;=20padding:=2030px=200=2020px;=20text-align:=20=
+center;">=C2=A1Recibiste=20plata=20por=20Bre-B!</td></tr><tr><td=20style=3D=
+"padding:=2030px=200px=2020px;=20font-size:=2016px;=20color:=20#848484;=20t=
+ext-align:=20left;">=C2=A1Hola,=20ELIAM=20AVILA=20CUESTA!</td></tr><tr><td=
+=20style=3D"padding-bottom:=2020px;=20font-size:=2016px;=20color:=20#848484=
+;=20text-align:=20left;"><p=20style=3D"margin:=203px=200">Recibiste=20810=
+=2E000=20de=20ELIAM=20AVILA=20CUESTA=20el=2029=20de=20junio=20de=202026=20a=
+=20la=201:24=20p=2Em,=20desde=20el=20banco=20Bancolombia=2E=20Revisa=20el=
+=20detalle=20en=20los=20movimientos=20de=20tu=20app=20o=20descarga=20el=20c=
+omprobante=20si=20lo=20necesitas=2E</p></td></tr><tr><td=20style=3D"padding=
+-bottom:=2050px;=20color:=20#848484;=20text-align:=20left;"><p=20style=3D"m=
+argin:=203px=200;=20font-size:=2014px">Si=20no=20fuiste=20t=C3=BA,=20fue=20=
+un=20error=20o=20tienes=20dudas,=20escr=C3=ADbenos=20al=20chat=20de=20nuest=
+ra=20p=C3=A1gina=20web:=20<a=20style=3D"color:=20#e42c9c;=20text-decoration=
+:=20none"=20href=3D"https://tracking=2Enotificaciones=2Enequi=2Ecom=2Eco/tr=
+acking/1/click/v5VgJMlyhZseMFH90fSBA-Jb0pszRdRMjpHBsCSqjbUz9XqztnfZBYtYHSnn=
+t7V4QpinXC-Ymi3cQqkXm5VTOZdl6XwiviFv0SjEeilRS0s0Qdda3IeTrhWOFORFhUOi00GV6Mf=
+tQ82y3hmptCzCFCFEjL3KCTlneZLvjMMWZLKnM8roELMYRzkK8rzjTEm-iewDJurzgv9kQ1oObb=
+Ti-VNphTQA2OnV4QW_wfWE-realnrrnjCnJ58lODGqQI-x-WN9tZf9O18e1e2pSSz_WA=3D=3D"=
+>www=2Enequi=2Ecom=2Eco</a>=20en=20el=20bot=C3=B3n=20de=20"Ayuda"=20o=20lla=
+ma=20a=20la=20l=C3=ADnea=20de=20atenci=C3=B3n:=20<a=20style=3D"color:=20#e4=
+2c9c;=20text-decoration:=20none"=20href=3D"tel:3006000100">(+57)=20300=2060=
+0=200100</a></p></td></tr><tr><td=20style=3D"padding:=2040px=2010px=2020px;=
+=20font-size:=2014px;=20color:=20#848484;=20border-top:=20dotted=201px=20#d=
+cdcdc;">=C2=BFYa=20nos=20sigues=20en=20redes?=20=C2=A1Siempre=20tenemos=20c=
+osas=20nuevas!</td></tr><tr><td=20style=3D"padding-bottom:=2040px"><table=
+=20align=3D"center"=20cellspacing=3D"0"=20cellpadding=3D"0"=20border=3D"0">=
+<tr><td><a=20href=3D"https://tracking=2Enotificaciones=2Enequi=2Ecom=2Eco/t=
+racking/1/click/IGBGpMgkDpfNX0ak6ToTbnS9UFYH_gieUOpv-947H8EnCuvyEl_8UJXHgBX=
+wqwjjiMFiClEu7fDY4IunuVgGmQvfeLwTDSa-ajUCgT1xerQYHgdBYCa4-Wu8DRIkbDGcwtmzQi=
+E5cwVz2jo5UzfL68vWLuCyAYDtdz3xWJxMCADFyPOfSA4f6wp-nSptws_l5QzSvtJv9ttp5bjCW=
+U6kfe3b3Nvs4bp-U5xakGT23qeSls7Dvw2ThMd1k9BzMwSpqyGPjCTm5jTode0KubC_Pau1G4KE=
+kIDcCFe0QxQ1vQc=3D"=20target=3D"_blank"><img=20src=3D"https://mail-nequi-co=
+=2Es3=2Eamazonaws=2Ecom/facturas/ico_tw_babel=2Epng"=20alt=3D"twitter"=20st=
+yle=3D"width:=2039px;=20padding:=200=2010px"=20/></a></td><td><a=20href=3D"=
+https://tracking=2Enotificaciones=2Enequi=2Ecom=2Eco/tracking/1/click/YaK-1=
+rh6s1xNUyX0QKCHaSX-hQahSy30Z-pCYotX2d0u8qOss8k-B-6SzJ0JzrPtSfGohyM6g5t8KMCo=
+GdOz1TQ5w5ZUEBb4vUFoJRQc24eWnnacguCrMl0NDNefbawZI7u8Q4-Ovw_DgyOphZBjE3OFOMr=
+FYS3pRQTSu6oKqKG9mmhdw5xeIfjCq7vA4VGxY2-k6kJzQJZAgqQUvlg_xM-dUHnnIDkGSOnTbE=
+JlDe7jIjNlynOvltjJ8fuAEbdhXix8IfWqKTKFgQfgzQDrsw=3D=3D"=20target=3D"_blank"=
+><img=20src=3D"https://mail-nequi-co=2Es3=2Eamazonaws=2Ecom/facturas/ico_fb=
+_babel=2Epng"=20alt=3D"facebook"=20style=3D"width:=2039px;=20padding:=200=
+=2010px"=20/></a></td><td><a=20href=3D"https://tracking=2Enotificaciones=2E=
+nequi=2Ecom=2Eco/tracking/1/click/9Niu5uhnISxaLgO1YCFQMMZ-PmiCC-ik6eNTFx5B7=
+PFHvkabd9LEtOCYV4txMvea7WJ3InfrVg543dm5RRklDFe4VYvT3AlxreGuV6RWKrr7iNEH6Zmv=
+lOEeA7_z5IbOvR_cbNQA3GvWOJcl89WLIGiUp4I05iJsfYh1OZE5b20_tcE0gOIF3obf9VOXaaC=
+N9XSEIRzfaJt7DWWLez-U-tX78ld8ZzY70USokR_mSaoKKzEhpRtdT85cy8jcUSyEQjM1lbtdnF=
+fNVzLG7YTRnQ=3D=3D"=20target=3D"_blank"><img=20src=3D"https://mail-nequi-co=
+=2Es3=2Eamazonaws=2Ecom/facturas/ico_insta_babel=2Epng"=20alt=3D"instagram"=
+=20style=3D"width:=2039px;=20padding:=200=2010px"=20/></a></td><td><a=20hre=
+f=3D"https://tracking=2Enotificaciones=2Enequi=2Ecom=2Eco/tracking/1/click/=
+glEOdsjS4nmPHX86VfRYMJP3AB1coAGFjL83KaN7SBAs_5JQr35UOHt2t02oGyyQodDMbHPUizz=
+fsfbuQcLKuEGwzbmsY8PDxtDVVFZ-XwbNv6Xh992Diak-IszZiLaMGgAsn6i2h0PZKWtCdw6wT-=
+KaHQ1JIWDq_Fek7RFSqKEifwDDpiX9w-xIXafPIzmuagPPQoG89ePtdQ_JfZZ_2jgWEHts7yDpg=
+9xfYdK_LqGTBlthtYx5R3o3lZJwz5X-P3vE7mUvTVA9RFyID2r3VKe7SbEgJoza6HgmmXM20mc4=
+1ji9uoxqNVtTfAXBtp6z"=20target=3D"_blank"><img=20src=3D"https://mail-nequi-=
+co=2Es3=2Eamazonaws=2Ecom/facturas/ico_yt_babel=2Epng"=20alt=3D"YouTube"=20=
+style=3D"width:=2039px;=20padding:=200=2010px"=20/></a></td><td><a=20href=
+=3D"https://tracking=2Enotificaciones=2Enequi=2Ecom=2Eco/tracking/1/click/D=
+j6BZm42_QvN3DOFtKZEqHKKxpsCSE3T1y-vYh80sEOh48zhnhgwv5irn2usdKjFVuoWEKQzSSi9=
+XeNe4jrWa7kcEoyN3lEDH6F-WmOEbHJlZeFSgPh7bF4EUMMBgAERX55e5G_SMu-5gJ3_n9Pki9o=
+S0k-s4X8_4YKn07nnUuTFSP15d-Xa1Q90sMoVQbQNXdpZZE116gqODk_d3L5uNgTO2G6ZfgjLaW=
+E0OJxk4xFw9We-uOc2xBeeKwAy0RP0VMHCxKtDL4HBnQdh8Oz8f-OtwyUIqSho8icBq9PbLgg=
+=3D"=20target=3D"_blank"><img=20src=3D"https://mail-nequi-co=2Es3=2Eamazona=
+ws=2Ecom/facturas/ico_in_babel=2Epng"=20alt=3D"LinkedIn"=20style=3D"width:=
+=2039px;=20padding:=200=2010px"=20/></a></td></tr></table></td></tr></table=
+></td></tr><tr><td=20style=3D"padding:=2020px=205%;=20text-align:=20right">=
+<a=20href=3D"https://tracking=2Enotificaciones=2Enequi=2Ecom=2Eco/tracking/=
+1/click/7A0ODhg7RWgWox9_K2jdxlzN5slr4MYzGuFMuBYfkLLH7TyFhZJtZ4gIaAo7BTQpnQV=
+VzmYBjJjZ16YW56RuRDidheAV6tHvA3wOovhTohDXNg-zR70Tz0SIiwstflwia0_Z9PAufhlWkc=
+QBslbW-wCkCmSKwqmnbfseeS6ray6I5OtGHTCr2BGysNPiLJtoBXhauCfE6Tk7imeBs66XiOanW=
+oRWNw69ZhtPE7kMGZcZL3U9EcO4Sfd9Bu8Rq2OQP1X3fevY_sE7oyok3c0ZmA=3D=3D"=20targ=
+et=3D"_blank"><img=20src=3D"https://mail-nequi-co=2Es3=2Eamazonaws=2Ecom/fa=
+cturas/footer_babel=2Epng"=20alt=3D"NEQUI"=20style=3D"width:=20120px"=20/><=
+/a></td></tr></table></td></tr></table></body></html>
+--=--1850883348_1782757449170_2569344--
+
