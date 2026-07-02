@@ -40,12 +40,24 @@ out/
 *.db
 *.db-journal
 *.sqlite
+*.sqlite3
 
 # 6. Datos temporales y de pruebas
 *.csv
 Comprobantes nequi/
 
-# 7. Archivos del Sistema Operativo y Editores
+# ==========================================
+# 7. EVOLUTION API & WHATSAPP SESIONES (CRÍTICO)
+# ==========================================
+# Bloqueo absoluto de sesiones, tokens y base de datos local
+instances/
+store/
+sessions/
+baileys_auth_info/
+evolution.db*
+evolution-api/
+
+# 8. Archivos del Sistema Operativo y Editores
 .DS_Store
 .DS_Store?
 ._*

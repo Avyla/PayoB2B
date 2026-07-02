@@ -33,7 +33,7 @@ export const sendPasswordResetEmail = async (to: string, token: string): Promise
 
   try {
     const data = await resend.emails.send({
-      from: 'Payo Soporte <onboarding@resend.dev>', // Usando el sandbox de Resend para desarrollo
+      from: env.RESEND_FROM_EMAIL,
       to: [to],
       subject: 'Restablecer contraseña - Payo',
       html: htmlContent,

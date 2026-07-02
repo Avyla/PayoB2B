@@ -25,6 +25,7 @@ export const env = {
   EVOLUTION_API_URL: process.env['EVOLUTION_API_URL'] ?? 'http://localhost:8080',
   EVOLUTION_API_KEY: process.env['EVOLUTION_API_KEY'] ?? '',
   RESEND_API_KEY: process.env['RESEND_API_KEY'] ?? '',
+  RESEND_FROM_EMAIL: process.env['RESEND_FROM_EMAIL'] ?? 'Payo Soporte <onboarding@resend.dev>',
   FRONTEND_URL: process.env['FRONTEND_URL'] ?? 'http://localhost:3000',
   CRON_SECRET_TOKEN: process.env['CRON_SECRET_TOKEN'] ?? '',
 } as const;
