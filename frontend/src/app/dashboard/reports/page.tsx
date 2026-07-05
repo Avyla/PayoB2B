@@ -9,7 +9,22 @@ import { DropdownOption } from '@/components/CustomDropdown';
 const fetcher = async (url: string) => {
   const token = typeof window !== 'undefined' ? localStorage.getItem('token') || '' : '';
   const res = await fetch(url, { headers: { 'Authorization': `Bearer ${token}` } });
-  if (!res.ok) throw new Error('Error fetching data');
+  if (!res.ok) {
+    let errorMessage = 'Ocurrió un error al cargar los datos.';
+    if (res.status === 401) {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+      }
+      errorMessage = 'No autorizado. Sesión expirada.';
+    } else {
+      try {
+        const data = await res.json();
+        if (data.message) errorMessage = data.message;
+      } catch (e) {}
+    }
+    throw new Error(errorMessage);
+  }
   return res.json();
 };
 

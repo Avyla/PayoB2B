@@ -21,14 +21,20 @@ const fetcher = async (url: string) => {
     headers: { 'Authorization': `Bearer ${token}` }
   });
   if (!res.ok) {
+    let errorMessage = 'Ocurrió un error al cargar los datos.';
     if (res.status === 401) {
       if (typeof window !== 'undefined') {
         localStorage.removeItem('token');
         window.location.href = '/login';
       }
-      throw new Error('No autorizado. Sesión expirada.');
+      errorMessage = 'No autorizado. Sesión expirada.';
+    } else {
+      try {
+        const data = await res.json();
+        if (data.message) errorMessage = data.message;
+      } catch (e) {}
     }
-    throw new Error('An error occurred while fetching the data.');
+    throw new Error(errorMessage);
   }
   return res.json();
 };
