@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
+import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
+import { prisma } from '../models/db';
 import { GmailService } from '../modules/email-integration/gmail.service';
 
-const prisma = new PrismaClient();
 const gmailService = new GmailService();
 
 export class WebhookController {
@@ -10,13 +10,12 @@ export class WebhookController {
    * POST /api/v1/webhooks/gmail
    * Endpoint público para recibir notificaciones Push de Google Pub/Sub
    */
-  public handleGmailPush = async (req: Request, res: Response): Promise<void> => {
+  public handleGmailPush = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       // 1. Pub/Sub envía el payload en req.body.message.data (Base64)
       const message = req.body.message;
       if (!message || !message.data) {
-        res.status(400).send('Bad Request');
-        return;
+        throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
       }
 
       // 2. Decodificar Base64
@@ -27,8 +26,7 @@ export class WebhookController {
       const historyId = payload.historyId;
 
       if (!emailAddress) {
-        res.status(400).send('Email address missing');
-        return;
+        throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
       }
 
       console.log(`[Webhook] Notificación de Gmail recibida para: ${emailAddress} (historyId: ${historyId})`);
@@ -40,8 +38,7 @@ export class WebhookController {
 
       if (!conexion) {
         console.warn(`[Webhook] No se encontró conexión activa para el email ${emailAddress}`);
-        res.status(404).send('Not Found');
-        return;
+        throw new AppError('El recurso solicitado no fue encontrado.', 404, 'RESOURCE_NOT_FOUND');
       }
 
       // 4. Mandar a sincronizar correos en segundo plano (no bloqueamos la respuesta a Google)
@@ -60,8 +57,7 @@ export class WebhookController {
       // 6. Responder 200 OK inmediatamente para que Google sepa que recibimos el mensaje
       res.status(200).send('OK');
     } catch (error) {
-      console.error('[Webhook] Error crítico procesando Push:', error);
-      res.status(500).send('Internal Server Error');
+      next(error);
     }
   };
 }

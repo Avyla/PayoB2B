@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
 import multer from 'multer';
 import { uploadImageToGCS, generateSignedUrl } from '../services/gcs.service';
 import { processReceiptAndCreateTransaction } from '../services/transaction.service';
@@ -11,13 +12,13 @@ const upload = multer({
   storage: multer.memoryStorage(),
 }).single('image');
 
-export const uploadReceipt = (req: AuthenticatedRequest, res: Response) => {
+export const uploadReceipt = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
   upload(req, res, async (err) => {
     if (err) {
       if (err instanceof multer.MulterError && err.code === 'LIMIT_UNEXPECTED_FILE') {
-        return res.status(400).json({ error: 'Unexpected field. Please ensure the file is uploaded under the "image" key.' });
+        return next(new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA'));
       }
-      return res.status(400).json({ error: 'File upload error', details: err.message });
+      return next(new AppError('Error subiendo el archivo', 400, 'BAD_REQUEST_DATA'));
     }
 
     try {
@@ -26,18 +27,16 @@ export const uploadReceipt = (req: AuthenticatedRequest, res: Response) => {
       const userId = req.user?.id_usuario;
 
       if (!tenantId) {
-        return res.status(401).json({ error: 'Tenant ID missing' });
+        return next(new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA'));
       }
 
       if (!file) {
-        return res.status(400).json({ error: 'No image file provided' });
+        return next(new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA'));
       }
 
       // T030: Validate MIME type — only JPG, PNG, WEBP allowed
       if (!ALLOWED_MIME_TYPES.includes(file.mimetype)) {
-        return res.status(415).json({
-          error: `Unsupported file format: "${file.mimetype}". Please upload a valid image (JPG, PNG, or WEBP).`,
-        });
+        return next(new AppError(`Formato no soportado: "${file.mimetype}". Sube JPG, PNG o WEBP.`, 400, 'BAD_REQUEST_DATA'));
       }
 
       // Upload to GCS
@@ -66,11 +65,7 @@ export const uploadReceipt = (req: AuthenticatedRequest, res: Response) => {
         isDuplicate,
       });
     } catch (error) {
-      console.error('Upload Error:', error);
-      return res.status(500).json({ 
-        error: 'Internal server error processing receipt',
-        details: error instanceof Error ? error.message : String(error)
-      });
+      return next(error);
     }
   });
 };

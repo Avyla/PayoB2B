@@ -111,18 +111,18 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200">
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="hidden md:table min-w-full divide-y divide-slate-200">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
-              <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Fecha TX</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Banco</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Ref</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Monto</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Estado</th>
-              <th className="px-6 py-4 text-left text-xs font-bold text-slate-500 uppercase tracking-wider">Acciones</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Fecha TX</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Banco</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Ref</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Monto</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Estado</th>
+              <th className="px-6 py-4 text-left text-xs font-bold text-slate-700 uppercase tracking-wider">Acciones</th>
             </tr>
           </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
+          <tbody className="bg-white divide-y divide-slate-200">
             {transactions.map((tx) => (
               <tr key={tx.id_transaccion} className="hover:bg-slate-50 transition-colors">
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 font-medium">
@@ -130,29 +130,29 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-semibold">
                   {tx.banco === 'OTROS_BANCOS' ? (
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-bold bg-rose-50 text-rose-800 border border-rose-200">
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
                       Otros Bancos
                     </span>
                   ) : tx.banco === 'NEQUI' ? (
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-fuchsia-50 text-fuchsia-800 border border-fuchsia-200">Nequi</span>
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-fuchsia-50 text-fuchsia-900 border border-fuchsia-200">Nequi</span>
                   ) : (
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">Bancolombia</span>
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-bold bg-amber-50 text-amber-900 border border-amber-200">Bancolombia</span>
                   )}
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono">{tx.referencia || <span className="text-red-400 italic font-sans">Falta ref</span>}</td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-800 font-extrabold tabular-nums">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-600 font-mono">{tx.referencia || <span className="text-red-500 italic font-sans font-medium">Falta ref</span>}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-900 font-extrabold tabular-nums">
                   {tx.monto
                     ? formatCOP(tx.monto)
-                    : <span className="text-red-400 italic font-normal">Falta monto</span>}
+                    : <span className="text-red-500 italic font-medium">Falta monto</span>}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm">
                   <span className={`px-2.5 py-1 inline-flex text-[10px] uppercase tracking-widest font-extrabold rounded-md ${
-                    tx.estado === 'VERIFICADO_SISTEMA' ? 'bg-emerald-100 text-emerald-800' :
-                    tx.estado === 'VERIFICADO_MANUAL' ? 'bg-slate-100 text-slate-600' :
-                    tx.estado === 'RECHAZADO' ? 'bg-rose-100 text-rose-800' :
-                    tx.estado === 'DUPLICADO_SOSPECHOSO' ? 'bg-amber-100 text-amber-800' :
-                    'bg-slate-100 text-slate-800'
+                    tx.estado === 'VERIFICADO_SISTEMA' ? 'bg-emerald-100 text-emerald-900 border border-emerald-200' :
+                    tx.estado === 'VERIFICADO_MANUAL' ? 'bg-slate-200 text-slate-800 border border-slate-300' :
+                    tx.estado === 'RECHAZADO' ? 'bg-rose-100 text-rose-900 border border-rose-200' :
+                    tx.estado === 'DUPLICADO_SOSPECHOSO' ? 'bg-amber-100 text-amber-900 border border-amber-200' :
+                    'bg-slate-100 text-slate-800 border border-slate-200'
                   }`}>
                     {tx.estado === 'VERIFICADO_SISTEMA' ? 'Sistema' :
                      tx.estado === 'VERIFICADO_MANUAL' ? 'Manual' :
@@ -166,8 +166,8 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                     onClick={() => openEditModal(tx)} 
                     className={`font-bold px-4 py-1.5 rounded-md transition-colors text-xs uppercase tracking-wider shadow-sm border ${
                       tx.estado === 'SUBIDO_SIN_VERIFICAR' || tx.estado === 'DUPLICADO_SOSPECHOSO'
-                        ? 'text-slate-700 bg-white border-slate-300 hover:bg-slate-50' 
-                        : 'text-slate-500 bg-transparent border-transparent hover:bg-slate-100 shadow-none'
+                        ? 'text-slate-800 bg-white border-slate-300 hover:bg-slate-50 hover:text-slate-900' 
+                        : 'text-slate-600 bg-transparent border-transparent hover:bg-slate-100 shadow-none'
                     }`}
                   >
                     {tx.estado === 'SUBIDO_SIN_VERIFICAR' ? 'Verificar' : tx.estado === 'DUPLICADO_SOSPECHOSO' ? 'Resolver' : 'Auditar'}
@@ -175,18 +175,78 @@ export const TransactionsTable: React.FC<TransactionsTableProps> = ({
                 </td>
               </tr>
             ))}
-            {transactions.length === 0 && (
-              <tr>
-                <td colSpan={6} className="px-6 py-12 bg-slate-50 rounded-b-lg">
-                  <EmptyState 
-                    title="¡Todo está al día!" 
-                    description="No tienes transacciones pendientes en este momento. Tómate un café o prepárate para la siguiente ola de ventas." 
-                  />
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
+
+        {/* Vista Móvil (Tarjetas) adapt */}
+        <div className="md:hidden flex flex-col divide-y divide-slate-200">
+          {transactions.map((tx) => (
+            <div key={tx.id_transaccion} className="p-4 flex flex-col space-y-3 bg-white hover:bg-slate-50 transition-colors">
+              <div className="flex justify-between items-start">
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold text-slate-500 uppercase">
+                    {tx.fecha_transaccion ? new Date(tx.fecha_transaccion).toLocaleDateString() : new Date(tx.fecha_creacion).toLocaleDateString()}
+                  </span>
+                  <span className="text-lg font-extrabold text-slate-900 tabular-nums">
+                    {tx.monto ? formatCOP(tx.monto) : <span className="text-red-500 italic text-sm font-medium">Falta monto</span>}
+                  </span>
+                </div>
+                <span className={`px-2 py-0.5 inline-flex text-[10px] uppercase tracking-widest font-extrabold rounded-md ${
+                  tx.estado === 'VERIFICADO_SISTEMA' ? 'bg-emerald-100 text-emerald-900 border border-emerald-200' :
+                  tx.estado === 'VERIFICADO_MANUAL' ? 'bg-slate-200 text-slate-800 border border-slate-300' :
+                  tx.estado === 'RECHAZADO' ? 'bg-rose-100 text-rose-900 border border-rose-200' :
+                  tx.estado === 'DUPLICADO_SOSPECHOSO' ? 'bg-amber-100 text-amber-900 border border-amber-200' :
+                  'bg-slate-100 text-slate-800 border border-slate-200'
+                }`}>
+                  {tx.estado === 'VERIFICADO_SISTEMA' ? 'Sist.' :
+                   tx.estado === 'VERIFICADO_MANUAL' ? 'Man.' :
+                   tx.estado === 'RECHAZADO' ? 'Rechazado' :
+                   tx.estado === 'DUPLICADO_SOSPECHOSO' ? 'Duplicado' :
+                   'Sin Verif.'}
+                </span>
+              </div>
+              
+              <div className="flex justify-between items-end">
+                <div className="flex flex-col space-y-1">
+                  <div className="flex items-center space-x-2">
+                    {tx.banco === 'OTROS_BANCOS' ? (
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold bg-rose-50 text-rose-800 border border-rose-200">
+                        Otros Bancos
+                      </span>
+                    ) : tx.banco === 'NEQUI' ? (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-fuchsia-50 text-fuchsia-900 border border-fuchsia-200">Nequi</span>
+                    ) : (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-900 border border-amber-200">Bancolombia</span>
+                    )}
+                  </div>
+                  <span className="text-xs font-mono text-slate-600 break-all max-w-[180px]">
+                    Ref: {tx.referencia || <span className="text-red-500 italic font-sans font-medium">Falta</span>}
+                  </span>
+                </div>
+                
+                <button 
+                  onClick={() => openEditModal(tx)} 
+                  className={`font-bold px-4 py-1.5 rounded-md transition-colors text-xs uppercase tracking-wider shadow-sm border ${
+                    tx.estado === 'SUBIDO_SIN_VERIFICAR' || tx.estado === 'DUPLICADO_SOSPECHOSO'
+                      ? 'text-slate-800 bg-white border-slate-300 hover:bg-slate-50' 
+                      : 'text-slate-600 bg-transparent border-transparent hover:bg-slate-100 shadow-none'
+                  }`}
+                >
+                  {tx.estado === 'SUBIDO_SIN_VERIFICAR' ? 'Verificar' : tx.estado === 'DUPLICADO_SOSPECHOSO' ? 'Resolver' : 'Auditar'}
+                </button>
+              </div>
+            </div>
+          ))}
+          
+          {transactions.length === 0 && (
+            <div className="px-6 py-12 bg-slate-50 text-center">
+              <EmptyState 
+                title="¡Todo está al día!" 
+                description="No tienes transacciones pendientes en este momento. Tómate un café o prepárate para la siguiente ola de ventas." 
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Pagination Controls */}

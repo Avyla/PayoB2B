@@ -1,14 +1,14 @@
-import { Response } from 'express';
+import { Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
 import { prisma } from '../models/db';
 import { AuthenticatedRequest } from '../middlewares/tenant.middleware';
 import { WhatsAppFirewall } from '../services/whatsapp-firewall.service';
 
-export const getLinkedNumbers = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getLinkedNumbers = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id_comercio = req.user?.id_comercio;
     if (!id_comercio) {
-      res.status(401).json({ error: 'No autorizado' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const numbers = await prisma.numeroWhatsApp.findMany({
@@ -18,29 +18,25 @@ export const getLinkedNumbers = async (req: AuthenticatedRequest, res: Response)
 
     res.status(200).json(numbers);
   } catch (error) {
-    console.error('Error fetching linked numbers:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    next(error);
   }
 };
 
-export const addLinkedNumber = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const addLinkedNumber = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id_comercio = req.user?.id_comercio;
     if (!id_comercio) {
-      res.status(401).json({ error: 'No autorizado' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     if (req.user?.rol !== 'ADMINISTRADOR') {
-      res.status(403).json({ error: 'Solo los administradores pueden vincular números de WhatsApp' });
-      return;
+      throw new AppError('No tienes los permisos necesarios para realizar esta acción.', 403, 'FORBIDDEN_ACTION');
     }
 
     const { numero, etiqueta } = req.body;
 
     if (!numero) {
-      res.status(400).json({ error: 'El número es obligatorio' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     // Check limit
@@ -49,8 +45,7 @@ export const addLinkedNumber = async (req: AuthenticatedRequest, res: Response):
     });
 
     if (count >= 5) {
-      res.status(400).json({ error: 'Has alcanzado el límite máximo de 5 números por comercio' });
-      return;
+      throw new AppError('Has alcanzado el límite máximo de 5 números por comercio', 400, 'BAD_REQUEST_DATA');
     }
 
     // Check if number is already registered
@@ -59,8 +54,7 @@ export const addLinkedNumber = async (req: AuthenticatedRequest, res: Response):
     });
 
     if (existing) {
-      res.status(400).json({ error: 'El número ya está vinculado a un comercio' });
-      return;
+      throw new AppError('El número ya está vinculado a un comercio', 400, 'BAD_REQUEST_DATA');
     }
 
     const newNumber = await prisma.numeroWhatsApp.create({
@@ -91,24 +85,21 @@ export const addLinkedNumber = async (req: AuthenticatedRequest, res: Response):
 
     res.status(201).json(newNumber);
   } catch (error) {
-    console.error('Error adding linked number:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    next(error);
   }
 };
 
-export const removeLinkedNumber = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const removeLinkedNumber = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const id_comercio = req.user?.id_comercio;
     const id = req.params.id as string;
 
     if (!id_comercio) {
-      res.status(401).json({ error: 'No autorizado' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     if (req.user?.rol !== 'ADMINISTRADOR') {
-      res.status(403).json({ error: 'Solo los administradores pueden desvincular números de WhatsApp' });
-      return;
+      throw new AppError('No tienes los permisos necesarios para realizar esta acción.', 403, 'FORBIDDEN_ACTION');
     }
 
     const number = await prisma.numeroWhatsApp.findUnique({
@@ -116,13 +107,11 @@ export const removeLinkedNumber = async (req: AuthenticatedRequest, res: Respons
     });
 
     if (!number) {
-      res.status(404).json({ error: 'Número no encontrado' });
-      return;
+      throw new AppError('El recurso solicitado no fue encontrado.', 404, 'RESOURCE_NOT_FOUND');
     }
 
     if (number.id_comercio !== id_comercio) {
-      res.status(403).json({ error: 'No tiene permiso para eliminar este número' });
-      return;
+      throw new AppError('No tienes los permisos necesarios para realizar esta acción.', 403, 'FORBIDDEN_ACTION');
     }
 
     await prisma.numeroWhatsApp.delete({
@@ -149,7 +138,6 @@ export const removeLinkedNumber = async (req: AuthenticatedRequest, res: Respons
 
     res.status(200).json({ success: true });
   } catch (error) {
-    console.error('Error removing linked number:', error);
-    res.status(500).json({ error: 'Error interno del servidor' });
+    next(error);
   }
 };

@@ -350,7 +350,7 @@ export const EmailSyncDrawer: React.FC<EmailSyncDrawerProps> = ({ isOpen, onClos
                                 ) : (
                                   <div className="space-y-2 max-h-60 overflow-y-auto">
                                     {unverifiedData.data.map(tx => (
-                                      <div key={tx.id_transaccion} onClick={() => setLinkingTransactionId(tx.id_transaccion)} className={`p-3 rounded-xl border text-sm cursor-pointer transition-colors ${linkingTransactionId === tx.id_transaccion ? 'bg-slate-900 border-slate-900 text-white' : 'bg-white border-slate-200 hover:border-slate-400'}`}>
+                                      <div key={tx.id_transaccion} onClick={() => setLinkingTransactionId(tx.id_transaccion)} className={`p-3 rounded-xl border text-sm cursor-pointer transition-colors ${linkingTransactionId === tx.id_transaccion ? 'bg-slate-900 border-slate-900 text-white' : 'bg-white border-slate-200 hover:border-slate-400 text-slate-800'}`}>
                                         <div className="flex justify-between">
                                           <p className="font-semibold">${tx.monto?.toLocaleString('es-CO')} <span className="opacity-75 font-normal">({tx.banco})</span></p>
                                           <p className="text-xs opacity-75">{new Date(tx.fecha_transaccion || '').toLocaleDateString()}</p>

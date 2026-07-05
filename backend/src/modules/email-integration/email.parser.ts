@@ -1,6 +1,16 @@
 import { Banco } from '@prisma/client';
 import { parse } from 'date-fns';
 
+function parseColombiaDate(dateStr: string, formatStr: string): Date {
+  const parsed = parse(dateStr, formatStr, new Date());
+  const y = parsed.getFullYear();
+  const m = String(parsed.getMonth() + 1).padStart(2, '0');
+  const d = String(parsed.getDate()).padStart(2, '0');
+  const h = String(parsed.getHours()).padStart(2, '0');
+  const min = String(parsed.getMinutes()).padStart(2, '0');
+  return new Date(`${y}-${m}-${d}T${h}:${min}:00-05:00`);
+}
+
 export interface ParsedEmailData {
   banco: Banco;
   monto: number;
@@ -75,7 +85,7 @@ export class EmailParser {
             const m = text.match(/el\s+(\d{2}\/\d{2}\/\d{2,4})\s+a\s+las\s+(\d{2}:\d{2})/i);
             if (!m) return null;
             const formatStr = m[1].length === 8 ? 'dd/MM/yy HH:mm' : 'dd/MM/yyyy HH:mm';
-            return parse(`${m[1]} ${m[2]}`, formatStr, new Date());
+            return parseColombiaDate(`${m[1]} ${m[2]}`, formatStr);
           }
         }
       ]
@@ -121,7 +131,7 @@ export class EmailParser {
             const dateStr = isFirstDate ? m[1] : m[2];
             const timeStr = isFirstDate ? m[2] : m[1];
             const formatStr = dateStr.length === 8 ? 'dd/MM/yy HH:mm' : 'dd/MM/yyyy HH:mm';
-            return parse(`${dateStr} ${timeStr}`, formatStr, new Date());
+            return parseColombiaDate(`${dateStr} ${timeStr}`, formatStr);
           }
         }
       ]
@@ -162,7 +172,63 @@ export class EmailParser {
             const m = text.match(/el\s+(\d{2}\/\d{2}\/\d{2,4})\s+a\s+las\s+(\d{2}:\d{2})/i);
             if (!m) return null;
             const formatStr = m[1].length === 8 ? 'dd/MM/yy HH:mm' : 'dd/MM/yyyy HH:mm';
-            return parse(`${m[1]} ${m[2]}`, formatStr, new Date());
+            return parseColombiaDate(`${m[1]} ${m[2]}`, formatStr);
+          }
+        }
+      ]
+    },
+    {
+      id: 'Bancolombia_BreB_Nuevo',
+      bank: Banco.BANCOLOMBIA,
+      hits: 0,
+      contextConditions: [/recibiste plata por bre-?b/i, /recibiste.*de.*el.*a las/i],
+      amountExtractors: [
+        {
+          id: 'bancolombia_breb_monto',
+          hits: 0,
+          extract: (text) => {
+            const m = text.match(/recibiste\s+[\$]?([\d.,]+)\s+de/i);
+            return m ? EmailParser.parseAmount(m[1]) : null;
+          }
+        }
+      ],
+      referenceExtractors: [
+        { id: 'bancolombia_breb_no_ref', hits: 0, extract: () => null }
+      ],
+      senderExtractors: [
+        {
+          id: 'bancolombia_breb_remitente',
+          hits: 0,
+          extract: (text) => {
+            const m = text.match(/de\s+([A-Za-z0-9\s]+?)\s+el\s+\d/i);
+            return m ? m[1].trim() : null;
+          }
+        }
+      ],
+      dateExtractors: [
+        {
+          id: 'bancolombia_breb_fecha',
+          hits: 0,
+          extract: (text) => {
+            const m = text.match(/el\s+(\d{1,2})\s+de\s+(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)\s+de\s+(\d{4})\s+a\s+las\s+(\d{1,2}):(\d{2})\s*(a\.?\s*m\.?|p\.?\s*m\.?)/i);
+            if (!m) return null;
+            const day = parseInt(m[1], 10);
+            const monthStr = m[2].toLowerCase();
+            const year = parseInt(m[3], 10);
+            let hours = parseInt(m[4], 10);
+            const minutes = parseInt(m[5], 10);
+            const ampm = m[6].toLowerCase().replace(/\s+/g, '');
+            
+            const MONTHS: Record<string, number> = {
+              enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6,
+              julio: 7, agosto: 8, septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12
+            };
+            const month = MONTHS[monthStr];
+            if (ampm.includes('p') && hours < 12) hours += 12;
+            if (ampm.includes('a') && hours === 12) hours = 0;
+            
+            const dateStr = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}T${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:00-05:00`;
+            return new Date(dateStr);
           }
         }
       ]
@@ -276,7 +342,19 @@ export class EmailParser {
 
     this.prioritizeRules();
 
+    const senderLower = sender.toLowerCase();
+    let expectedBank: Banco | null = null;
+    if (senderLower.includes('bancolombia') || senderLower.includes('notificacionesbancolombia')) {
+      expectedBank = Banco.BANCOLOMBIA;
+    } else if (senderLower.includes('nequi')) {
+      expectedBank = Banco.NEQUI;
+    }
+
     for (const rule of this.rules) {
+      if (expectedBank && rule.bank !== expectedBank) {
+        continue; // SSD - Sign: Descartar reglas de otros bancos basados en el dominio del remitente
+      }
+
       const isContextMatch = rule.contextConditions.some(regex => regex.test(text));
       if (!isContextMatch) continue;
 

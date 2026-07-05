@@ -29,10 +29,19 @@ export class ReceiptParserDispatcher {
   }
 
   parse(rawText: string): ParsedReceiptResult {
+    let bestResult: ParsedReceiptResult | null = null;
+
     for (const parser of this.parsers) {
       if (parser.canParse(rawText)) {
-        return parser.parse(rawText);
+        const result = parser.parse(rawText);
+        if (!bestResult || result.confidenceScore > bestResult.confidenceScore) {
+          bestResult = result;
+        }
       }
+    }
+
+    if (bestResult && bestResult.confidenceScore > 0) {
+      return bestResult;
     }
 
     // Fallback

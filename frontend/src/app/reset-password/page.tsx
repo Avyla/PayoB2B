@@ -39,7 +39,7 @@ function ResetPasswordForm() {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || 'No se pudo restablecer la contraseña');
+        throw new Error(data.message || 'No se pudo restablecer la contraseña');
       }
 
       setStatus('success');
@@ -48,7 +48,7 @@ function ResetPasswordForm() {
       if (err instanceof Error) {
         setErrorMessage(err.message);
       } else {
-        setErrorMessage('Ocurrió un error inesperado');
+        setErrorMessage('Ocurrió un error inesperado al conectar con el servidor.');
       }
     }
   };

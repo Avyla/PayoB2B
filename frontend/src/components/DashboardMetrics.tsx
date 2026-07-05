@@ -45,18 +45,15 @@ export const DashboardMetrics: React.FC<DashboardMetricsProps> = ({ metrics, loa
       <div className="flex flex-col lg:flex-row gap-4 md:gap-6 mb-8">
         
         {/* Primary Metric: Monto Total (Left Side) */}
-        <div className="lg:w-2/5 bg-gradient-to-br from-slate-900 to-slate-800 p-8 md:p-10 rounded-[2rem] shadow-xl flex flex-col justify-center relative overflow-hidden text-white">
-          <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/5 rounded-full blur-2xl pointer-events-none" />
-          <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-sky-500/10 rounded-full blur-xl pointer-events-none" />
-          
-          <div className="relative z-10">
+        <div className="lg:w-2/5 bg-slate-900 p-8 md:p-10 rounded-3xl shadow-sm flex flex-col justify-center text-white border border-slate-800">
+          <div>
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-white/10 rounded-lg">
+              <div className="p-2 bg-white/10 rounded-md">
                 <svg className="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
               <span className="text-xs md:text-sm font-bold uppercase tracking-widest text-slate-300">Dinero Total Conciliado</span>
             </div>
-            <p className="text-5xl md:text-6xl font-black tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-300">
+            <p className="text-5xl md:text-6xl font-black tracking-tighter text-white">
               {formatCOP(metrics.totalAmount)}
             </p>
             <p className="mt-6 text-sm font-medium text-slate-400 border-t border-white/10 pt-4">

@@ -1,9 +1,19 @@
 import { ParsedReceiptResult, ReceiptParser, BankType } from './index';
+import { extraerMontoCOP } from '../utils/currency.utils';
 
 export class NequiReceiptParser implements ReceiptParser {
   canParse(rawText: string): boolean {
     const text = rawText.toLowerCase();
-    return text.includes('nequi') || text.includes('¡envío exitoso!') || text.includes('movimiento exitoso');
+    // SSD – Sign: Use Nequi-specific structural signals to avoid false positives
+    // when "nequi" appears as a *destination bank* on a Bancolombia receipt.
+    // Priority signals (unique to the Nequi app UI):
+    const hasNequiQr = text.includes('escanea este qr con nequi');
+    const hasNequiNumber = text.includes('número nequi');
+    const hasCuanto = text.includes('¿cuánto?') || text.includes('¿cuanto?');
+    const hasEnvioRealizado = text.includes('envío realizado') || text.includes('envio realizado');
+    const hasMovimientoExitoso = text.includes('movimiento exitoso') || text.includes('¡envío exitoso!');
+    // A receipt is Nequi if it has at least one UI-structural signal
+    return hasNequiQr || hasNequiNumber || hasCuanto || hasEnvioRealizado || hasMovimientoExitoso;
   }
 
   parse(rawText: string): ParsedReceiptResult {
@@ -14,12 +24,11 @@ export class NequiReceiptParser implements ReceiptParser {
     let confidence = 0;
 
     // Extract Monto
-    const montoRegex = /(?:¿Cuánto\?:?|Monto:?|Total:?)?\s*\$\s*([\d\.\,]+)/i;
+    const montoRegex = /(?:¿Cuánto\?:?|Monto:?|Total:?)?\s*\$\s*([\d\.\,\sOo]+)/i;
     const montoMatch = rawText.match(montoRegex);
     if (montoMatch && montoMatch[1]) {
-      const cleanMonto = montoMatch[1].replace(/\./g, '').replace(/,/g, '.');
-      const parsed = parseFloat(cleanMonto);
-      if (!isNaN(parsed)) {
+      const parsed = extraerMontoCOP(montoMatch[1]);
+      if (parsed > 0) {
         monto = parsed;
         confidence += 0.4;
       }
@@ -64,10 +73,15 @@ export class NequiReceiptParser implements ReceiptParser {
     }
 
     // Extract Nombre Remitente
-    const remitenteRegex = /(?:De:|¿Desde dónde se hizo el envío\?|Nombre de quien envía:?|Enviado por:?)\s*([^\n]+)/i;
+    // SSD – Data: handle both accented "dónde" and unaccented "donde" (OCR variation)
+    const remitenteRegex = /(?:De:|\u00bfDesde\s+d[o\u00f3]nde\s+se\s+hizo\s+el\s+env[i\u00ed]o\?|Nombre de quien env[i\u00ed]a:?|Enviado por:?)\s*([^\n]+)/i;
     const remitenteMatch = rawText.match(remitenteRegex);
     if (remitenteMatch && remitenteMatch[1]) {
-      nombreRemitente = remitenteMatch[1].trim();
+      const candidato = remitenteMatch[1].trim();
+      // Filter out phone numbers — they are not a useful remitente name for matching
+      if (!/^[\d\s]+$/.test(candidato)) {
+        nombreRemitente = candidato;
+      }
     }
 
     return {
@@ -77,7 +91,7 @@ export class NequiReceiptParser implements ReceiptParser {
       fechaTransaccion,
       nombreRemitente,
       rawText,
-      confidenceScore: confidence,
+      confidenceScore: Math.min(confidence, 1.0),
     };
   }
 }

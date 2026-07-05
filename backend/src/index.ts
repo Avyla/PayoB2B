@@ -38,9 +38,14 @@ app.use('/api/v1/cron', cronRoutes);
 
 app.post('/api/v1/webhooks/gmail', webhookController.handleGmailPush);
 
+import { globalErrorHandler } from './middlewares/error.middleware';
+
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'OK' });
 });
+
+// Error handling middleware
+app.use(globalErrorHandler);
 
 const seedDatabase = async () => {
   try {
@@ -77,8 +82,16 @@ const seedDatabase = async () => {
 
 import { WhatsAppFirewall } from './services/whatsapp-firewall.service';
 
-app.listen(env.PORT, async () => {
+const startServer = async () => {
   await seedDatabase();
   await WhatsAppFirewall.initialize();
-  console.log(`🚀 Server running on port ${env.PORT}`);
+
+  app.listen(env.PORT, () => {
+    console.log(`🚀 Server running on port ${env.PORT}`);
+  });
+};
+
+startServer().catch(error => {
+  console.error('❌ Failed to start server:', error);
+  process.exit(1);
 });

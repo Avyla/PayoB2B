@@ -1,9 +1,8 @@
 import { google } from 'googleapis';
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '../../models/db';
 import { EmailParserService } from './email-parser.service';
 import { MatchService } from '../../services/match.service';
 
-const prisma = new PrismaClient();
 const matchService = new MatchService();
 
 export class GmailService {

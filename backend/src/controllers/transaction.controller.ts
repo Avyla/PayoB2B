@@ -1,4 +1,5 @@
-import { Response } from 'express';
+import { Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
 import { AuthenticatedRequest } from '../middlewares/tenant.middleware';
 import { prisma } from '../models/db';
 import { Banco, EstadoTransaccion } from '@prisma/client';
@@ -8,12 +9,11 @@ import { buildTransactionFilter } from '../utils/filter.builder';
 
 const matchService = new MatchService();
 
-export const getTransactions = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getTransactions = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const { limit = '50', offset = '0' } = req.query;
@@ -49,17 +49,15 @@ export const getTransactions = async (req: AuthenticatedRequest, res: Response):
 
     res.json({ data: transactions, total });
   } catch (error) {
-    console.error('Error fetching transactions:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const getTransactionSignedUrl = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getTransactionSignedUrl = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const id = req.params.id as string;
@@ -69,8 +67,7 @@ export const getTransactionSignedUrl = async (req: AuthenticatedRequest, res: Re
     });
 
     if (!transaction || transaction.id_comercio !== tenantId) {
-      res.status(404).json({ error: 'Transaction not found' });
-      return;
+      throw new AppError('El recurso solicitado no fue encontrado.', 404, 'RESOURCE_NOT_FOUND');
     }
 
     const signedUrl = await generateSignedUrl(transaction.url_imagen_gcs);
@@ -81,25 +78,22 @@ export const getTransactionSignedUrl = async (req: AuthenticatedRequest, res: Re
 
     res.json({ url: signedUrl, duplicadoUrl });
   } catch (error) {
-    console.error('Error generating signed url:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const updateTransactionStatus = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const updateTransactionStatus = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const { id } = req.params;
     const { estado, notas_revision, banco, monto, referencia, fecha_transaccion } = req.body;
 
     if (!estado && !banco && monto === undefined && !referencia && !fecha_transaccion && notas_revision === undefined) {
-      res.status(400).json({ error: 'No fields to update' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     // Verify ownership
@@ -109,8 +103,7 @@ export const updateTransactionStatus = async (req: AuthenticatedRequest, res: Re
     });
 
     if (!transaction || transaction.id_comercio !== tenantId) {
-      res.status(404).json({ error: 'Transaction not found' });
-      return;
+      throw new AppError('El recurso solicitado no fue encontrado.', 404, 'RESOURCE_NOT_FOUND');
     }
 
     const dataToUpdate: any = {};
@@ -144,25 +137,22 @@ export const updateTransactionStatus = async (req: AuthenticatedRequest, res: Re
 
     res.json(updated);
   } catch (error) {
-    console.error('Error updating transaction:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const linkEmailToTransaction = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const linkEmailToTransaction = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const id = req.params.id as string;
     const { id_alerta_email } = req.body;
 
     if (!id_alerta_email) {
-      res.status(400).json({ error: 'id_alerta_email is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     await matchService.manualMatch(id, id_alerta_email, tenantId);
@@ -181,7 +171,6 @@ export const linkEmailToTransaction = async (req: AuthenticatedRequest, res: Res
 
     res.json({ success: true, message: 'Correo vinculado exitosamente' });
   } catch (error: any) {
-    console.error('Error linking email:', error);
-    res.status(400).json({ error: error.message || 'Error linking email' });
+    next(new AppError(error.message || 'Error vinculando correo', 400, 'BAD_REQUEST_DATA'));
   }
 };

@@ -1,14 +1,14 @@
-import { Response } from 'express';
+import { Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
 import { AuthenticatedRequest } from '../middlewares/tenant.middleware';
 import { prisma } from '../models/db';
 import { buildTransactionFilter } from '../utils/filter.builder';
 
-export const getMetrics = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getMetrics = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const where = buildTransactionFilter(tenantId, req.query);
@@ -68,7 +68,6 @@ export const getMetrics = async (req: AuthenticatedRequest, res: Response): Prom
       countOtrosBancos,
     });
   } catch (error) {
-    console.error('Error fetching dashboard metrics:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };

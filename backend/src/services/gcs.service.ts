@@ -2,12 +2,19 @@ import { Storage } from '@google-cloud/storage';
 import path from 'path';
 import { env } from '../config/env';
 
+import fs from 'fs';
+
 const keyFilePath = path.resolve(__dirname, '../..', env.GCP_STORAGE_KEY_PATH);
 
-const storage = new Storage({
+const storageOptions: any = {
   projectId: env.GCP_PROJECT_ID,
-  keyFilename: keyFilePath,
-});
+};
+
+if (fs.existsSync(keyFilePath)) {
+  storageOptions.keyFilename = keyFilePath;
+}
+
+const storage = new Storage(storageOptions);
 
 const BUCKET_NAME = env.GCS_BUCKET_NAME || 'payo-receipts';
 

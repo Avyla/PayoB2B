@@ -96,30 +96,30 @@ export const SharedFilterBar: React.FC<SharedFilterBarProps> = ({
   ];
 
   const filterFields = (
-    <div className="flex flex-col gap-5 p-6 overflow-y-auto flex-1 bg-white">
-      <div className="w-full flex flex-col gap-1.5">
+    <div className="flex flex-col gap-6 p-6 overflow-y-auto flex-1 bg-white">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Desde</label>
-        <CustomDatePicker selected={fecha_inicio} onChange={setFechaInicio} placeholderText="Fecha de inicio" showTimeSelect={true} />
+        <CustomDatePicker selected={fecha_inicio} onChange={setFechaInicio} placeholderText="Fecha de inicio" showTimeSelect={true} maxDate={fecha_fin} />
       </div>
 
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Hasta</label>
-        <CustomDatePicker selected={fecha_fin} onChange={setFechaFin} placeholderText="Fecha fin" showTimeSelect={true} />
+        <CustomDatePicker selected={fecha_fin} onChange={setFechaFin} placeholderText="Fecha fin" showTimeSelect={true} minDate={fecha_inicio} />
       </div>
 
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Banco</label>
         <CustomDropdown value={banco} onChange={setBanco} options={bancoOptions} />
       </div>
       
       {showEstado && (
-        <div className="w-full flex flex-col gap-1.5">
+        <div className="w-full flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Estado</label>
           <CustomDropdown value={estado} onChange={setEstado} options={estadoOptions} />
         </div>
       )}
 
-      <div className="w-full flex flex-col gap-1.5">
+      <div className="w-full flex flex-col gap-2">
         <label className="text-xs font-bold uppercase tracking-widest text-slate-500 ml-1">Origen / Cajero</label>
         <CustomDropdown value={origen} onChange={setOrigen} options={origenOptions} />
       </div>
@@ -130,13 +130,13 @@ export const SharedFilterBar: React.FC<SharedFilterBarProps> = ({
     <div className="flex flex-col md:flex-row gap-3 w-full justify-end">
       <button
         onClick={handleReset}
-        className="w-full bg-white text-slate-600 border border-slate-300 px-6 py-3 rounded-xl hover:bg-slate-50 shadow-sm text-sm font-bold transition-colors md:order-1 order-2"
+        className="w-full md:w-auto bg-white text-slate-700 border border-slate-200 px-6 py-2.5 rounded-md hover:bg-slate-50 hover:border-slate-300 shadow-sm text-sm font-bold transition-colors md:order-1 order-2"
       >
         Limpiar
       </button>
       <button
         onClick={handleApply}
-        className="w-full bg-slate-900 text-white px-6 py-3 rounded-xl hover:bg-slate-800 shadow-sm text-sm font-bold transition-colors md:order-2 order-1"
+        className="w-full md:w-auto bg-slate-900 text-white px-6 py-2.5 rounded-md hover:bg-slate-800 shadow-sm text-sm font-bold transition-colors md:order-2 order-1"
       >
         Aplicar
       </button>
@@ -151,7 +151,7 @@ export const SharedFilterBar: React.FC<SharedFilterBarProps> = ({
       {/* Trigger Button (Visible on all screens) */}
       <button 
         onClick={() => setIsOpen(true)} 
-        className="bg-white border border-slate-300 px-5 py-2.5 rounded-lg font-bold text-slate-700 flex justify-center items-center gap-2.5 shadow-sm hover:bg-slate-50 transition-colors w-full md:w-auto"
+        className="bg-white border border-slate-200 px-4 py-2 rounded-md font-bold text-sm text-slate-700 flex justify-center items-center gap-2 shadow-sm hover:bg-slate-50 transition-colors w-full md:w-auto"
       >
         <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
@@ -180,7 +180,7 @@ export const SharedFilterBar: React.FC<SharedFilterBarProps> = ({
               className="md:hidden fixed inset-x-0 bottom-0 z-50 bg-white rounded-t-3xl shadow-2xl flex flex-col max-h-[85vh]"
             >
               <div className="p-6 pb-0 flex justify-between items-center shrink-0 border-b border-slate-100 pb-4">
-                <h3 className="font-extrabold text-xl text-slate-800 tracking-tight">Filtros</h3>
+                <h3 className="font-bold text-xl text-slate-800 tracking-tight">Filtros</h3>
                 <button onClick={() => setIsOpen(false)} className="bg-slate-100 p-2 rounded-full text-slate-500 hover:bg-slate-200 transition-colors">
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
@@ -209,7 +209,7 @@ export const SharedFilterBar: React.FC<SharedFilterBarProps> = ({
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-extrabold text-lg text-slate-900 tracking-tight leading-tight">Filtros de Búsqueda</h3>
+                    <h3 className="font-bold text-lg text-slate-900 tracking-tight leading-tight">Filtros de Búsqueda</h3>
                     <p className="text-xs font-medium text-slate-500">Refina las transacciones</p>
                   </div>
                 </div>

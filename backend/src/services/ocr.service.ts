@@ -2,12 +2,19 @@ import vision from '@google-cloud/vision';
 import path from 'path';
 import { env } from '../config/env';
 
+import fs from 'fs';
+
 const keyFilePath = path.resolve(__dirname, '../..', env.GCP_VISION_KEY_PATH);
 
-const client = new vision.ImageAnnotatorClient({
+const visionOptions: any = {
   projectId: env.GCP_PROJECT_ID,
-  keyFilename: keyFilePath,
-});
+};
+
+if (fs.existsSync(keyFilePath)) {
+  visionOptions.keyFilename = keyFilePath;
+}
+
+const client = new vision.ImageAnnotatorClient(visionOptions);
 
 export const extractTextFromImage = async (gcsUriOrBuffer: string | Buffer): Promise<string> => {
   try {

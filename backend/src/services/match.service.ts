@@ -27,13 +27,16 @@ export class MatchService {
         return false;
       }
 
-      // Truncar la fecha al minuto para crear una ventana estricta de ese minuto exacto
+      // Ampliar la ventana de búsqueda a +/- 5 minutos para tolerar desfasajes
+      // entre la hora del comprobante y la hora de recepción del correo.
       const txDate = new Date(transaccion.fecha_transaccion);
       const minutoInicio = new Date(txDate);
       minutoInicio.setSeconds(0, 0);
+      minutoInicio.setMinutes(minutoInicio.getMinutes() - 5);
       
-      const minutoFin = new Date(minutoInicio);
-      minutoFin.setMinutes(minutoFin.getMinutes() + 1);
+      const minutoFin = new Date(txDate);
+      minutoFin.setSeconds(0, 0);
+      minutoFin.setMinutes(minutoFin.getMinutes() + 5);
 
       const bancosAceptables = [transaccion.banco];
       if (transaccion.banco === 'NEQUI') bancosAceptables.push('BANCOLOMBIA');
@@ -121,13 +124,15 @@ export class MatchService {
 
       if (!alerta || alerta.estado_cruce !== 'PENDIENTE' || !alerta.fecha_hora_transaccion) return false;
 
-      // Truncar la fecha al minuto para crear una ventana estricta de ese minuto exacto
+      // Ampliar la ventana a +/- 5 minutos
       const alertaDate = new Date(alerta.fecha_hora_transaccion);
       const minutoInicio = new Date(alertaDate);
       minutoInicio.setSeconds(0, 0);
+      minutoInicio.setMinutes(minutoInicio.getMinutes() - 5);
       
-      const minutoFin = new Date(minutoInicio);
-      minutoFin.setMinutes(minutoFin.getMinutes() + 1);
+      const minutoFin = new Date(alertaDate);
+      minutoFin.setSeconds(0, 0);
+      minutoFin.setMinutes(minutoFin.getMinutes() + 5);
 
       const bancosAceptables = [alerta.banco];
       if (alerta.banco === 'NEQUI') bancosAceptables.push('BANCOLOMBIA');

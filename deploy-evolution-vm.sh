@@ -8,7 +8,7 @@ PROJECT_ID=${PROJECT_ID:-"payo-500801"}
 REGION=${REGION:-"us-central1"}
 ZONE="${REGION}-a"
 VM_NAME="payo-evolution-api"
-IMAGE="evolutionapi/evolution-api:v2.1.1" # Imagen oficial estable de Evolution API v2
+IMAGE="evoapicloud/evolution-api:latest" # Imagen oficial estable de Evolution API
 BACKEND_SERVICE_NAME="payo-backend"
 
 echo "=================================================="
@@ -58,8 +58,68 @@ else
     echo "La regla de firewall ya existe."
 fi
 
-# 4. Desplegar la Instancia (VM) con Docker (Container-Optimized OS)
-echo "💻 Desplegando Máquina Virtual ($VM_NAME) con Docker..."
+# 4. Desplegar la Instancia (VM) con Docker Compose y Redis
+echo "💻 Desplegando Máquina Virtual ($VM_NAME) con Docker Compose..."
+
+# Definimos el startup-script que se ejecutará al iniciar la VM
+cat << 'EOF' > startup-script.sh
+#!/bin/bash
+# Actualizar e instalar dependencias
+apt-get update
+apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+# Instalar Docker
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+# Instalar Docker Compose Plugin
+apt-get install -y docker-compose-plugin
+
+# Crear directorios para los datos
+mkdir -p /opt/evolution/instances
+mkdir -p /opt/evolution/store
+mkdir -p /opt/evolution/redis
+
+# Crear docker-compose.yml
+cat << 'DOCKER_COMPOSE_EOF' > /opt/evolution/docker-compose.yml
+version: "3.7"
+services:
+  redis:
+    image: redis:alpine
+    container_name: evo-redis
+    restart: always
+    volumes:
+      - /opt/evolution/redis:/data
+    command: redis-server --appendonly yes
+
+  evolution:
+    image: evoapicloud/evolution-api:latest
+    container_name: evolution-api
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - redis
+    environment:
+      - SERVER_PORT=8080
+      - AUTHENTICATION_TYPE=apikey
+      # El script de la VM reemplazará este valor:
+      - AUTHENTICATION_API_KEY=API_KEY_PLACEHOLDER
+      - REDIS_URI=redis://redis:6379
+      - CACHE_REDIS_URI=redis://redis:6379/1
+    volumes:
+      - /opt/evolution/instances:/evolution/instances
+      - /opt/evolution/store:/evolution/store
+DOCKER_COMPOSE_EOF
+
+# Reemplazar la API KEY en el docker-compose
+sed -i "s/API_KEY_PLACEHOLDER/$API_KEY_ENV/g" /opt/evolution/docker-compose.yml
+
+# Levantar los contenedores
+cd /opt/evolution
+docker compose up -d
+EOF
+
+# Inyectamos la API Key en el script (antes de enviarlo a GCP)
+sed -i.bak "s/\$API_KEY_ENV/$API_KEY/g" startup-script.sh
 
 set +e
 gcloud compute instances describe $VM_NAME --zone=$ZONE --project=$PROJECT_ID > /dev/null 2>&1
@@ -67,27 +127,29 @@ VM_EXISTS=$?
 set -e
 
 if [ $VM_EXISTS -ne 0 ]; then
-    # El flag --container-mount-host-path asegura que los datos (sesiones de WhatsApp) sobrevivan a los reinicios del contenedor
-    gcloud compute instances create-with-container $VM_NAME \
+    gcloud compute instances create $VM_NAME \
         --project=$PROJECT_ID \
         --zone=$ZONE \
         --machine-type=e2-micro \
+        --image-family=ubuntu-2204-lts \
+        --image-project=ubuntu-os-cloud \
         --tags=evolution-api \
-        --container-image=$IMAGE \
-        --container-env="AUTHENTICATION_TYPE=apikey,AUTHENTICATION_API_KEY=$API_KEY,SERVER_PORT=8080" \
-        --container-mount-host-path=host-path=/var/evolution/instances,mount-path=/evolution/instances,mode=rw \
-        --container-mount-host-path=host-path=/var/evolution/store,mount-path=/evolution/store,mode=rw \
-        --container-restart-policy=always
+        --metadata-from-file startup-script=startup-script.sh
 else
-    echo "La VM $VM_NAME ya existe. Actualizando contenedor..."
-    gcloud compute instances update-container $VM_NAME \
+    echo "La VM $VM_NAME ya existe. Eliminándola para recrearla con Redis..."
+    gcloud compute instances delete $VM_NAME --zone=$ZONE --project=$PROJECT_ID --quiet
+    echo "Creando nueva VM $VM_NAME..."
+    gcloud compute instances create $VM_NAME \
         --project=$PROJECT_ID \
         --zone=$ZONE \
-        --container-image=$IMAGE \
-        --container-env="AUTHENTICATION_TYPE=apikey,AUTHENTICATION_API_KEY=$API_KEY,SERVER_PORT=8080" \
-        --container-mount-host-path=host-path=/var/evolution/instances,mount-path=/evolution/instances,mode=rw \
-        --container-mount-host-path=host-path=/var/evolution/store,mount-path=/evolution/store,mode=rw
+        --machine-type=e2-micro \
+        --image-family=ubuntu-2204-lts \
+        --image-project=ubuntu-os-cloud \
+        --tags=evolution-api \
+        --metadata-from-file startup-script=startup-script.sh
 fi
+
+rm startup-script.sh startup-script.sh.bak || true
 
 # 5. Obtener la IP Pública de la VM
 echo "🌐 Obteniendo IP pública de Evolution API..."

@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
 import { prisma } from '../models/db';
 import { comparePassword, generateToken } from '../utils/auth';
 
-export const login = async (req: Request, res: Response): Promise<void> => {
+export const login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      res.status(400).json({ error: 'Email and password are required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const user = await prisma.usuario.findUnique({
@@ -16,14 +16,12 @@ export const login = async (req: Request, res: Response): Promise<void> => {
     });
 
     if (!user) {
-      res.status(401).json({ error: 'Invalid credentials' });
-      return;
+      throw new AppError('El correo o la contraseña son incorrectos.', 401, 'INVALID_CREDENTIALS');
     }
 
     const isMatch = await comparePassword(password, user.password_hash);
     if (!isMatch) {
-      res.status(401).json({ error: 'Invalid credentials' });
-      return;
+      throw new AppError('El correo o la contraseña son incorrectos.', 401, 'INVALID_CREDENTIALS');
     }
 
     const token = generateToken({
@@ -34,8 +32,7 @@ export const login = async (req: Request, res: Response): Promise<void> => {
 
     res.json({ token, user: { email: user.email, rol: user.rol, nombre_completo: user.nombre_completo } });
 } catch (error) {
-    console.error('Login error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
@@ -56,19 +53,17 @@ const cleanOldRequests = (email: string) => {
   return validRequests.length;
 };
 
-export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+export const forgotPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { email } = req.body;
     if (!email) {
-      res.status(400).json({ error: 'Email is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     // Rate Limiting Check
     const requestCount = cleanOldRequests(email);
     if (requestCount >= 3) {
-      res.status(429).json({ error: 'Too many requests. Please try again in an hour.' });
-      return;
+      throw new AppError('Demasiados intentos. Por favor, inténtalo de nuevo más tarde.', 429, 'TOO_MANY_REQUESTS');
     }
 
     // Add new request timestamp
@@ -104,17 +99,15 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 
     res.status(200).json({ message: 'If your email is registered, you will receive a reset link shortly.' });
   } catch (error) {
-    console.error('Forgot password error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+export const resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
   try {
     const { token, new_password } = req.body;
     if (!token || !new_password) {
-      res.status(400).json({ error: 'Token and new password are required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const user = await prisma.usuario.findFirst({
@@ -127,8 +120,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
     });
 
     if (!user) {
-      res.status(400).json({ error: 'Invalid or expired token' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const { hashPassword } = await import('../utils/auth');
@@ -145,7 +137,6 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
 
     res.status(200).json({ message: 'Password reset successfully' });
   } catch (error) {
-    console.error('Reset password error:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };

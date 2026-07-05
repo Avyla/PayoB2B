@@ -1,7 +1,5 @@
 import { google } from 'googleapis';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../models/db';
 
 export class GmailPubSubService {
   private oauth2Client;

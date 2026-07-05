@@ -61,7 +61,7 @@ export default function ForgotPasswordPage() {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || 'Ocurrió un error al procesar tu solicitud');
+        throw new Error(data.message || 'Ocurrió un error al procesar tu solicitud');
       }
 
       setStatus('success');
@@ -70,7 +70,7 @@ export default function ForgotPasswordPage() {
       if (err instanceof Error) {
         setErrorMessage(err.message);
       } else {
-        setErrorMessage('Ocurrió un error inesperado');
+        setErrorMessage('Ocurrió un error inesperado al conectar con el servidor.');
       }
     }
   };

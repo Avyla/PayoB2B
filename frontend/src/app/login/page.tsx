@@ -62,7 +62,7 @@ export default function LoginPage() {
 
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
-        throw new Error(data.error || 'Login failed');
+        throw new Error(data.message || 'Error inesperado al iniciar sesión.');
       }
 
       const data = await response.json();
@@ -73,7 +73,7 @@ export default function LoginPage() {
       if (err instanceof Error) {
         setError(err.message);
       } else {
-        setError('Login failed');
+        setError('Ocurrió un error inesperado al conectar con el servidor.');
       }
     }
   };

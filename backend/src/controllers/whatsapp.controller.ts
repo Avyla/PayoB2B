@@ -1,5 +1,6 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
+import { AppError } from '../utils/app-error';
 import { env } from '../config/env';
 import { uploadImageToGCS } from '../services/gcs.service';
 import { processReceiptAndCreateTransaction } from '../services/transaction.service';
@@ -94,7 +95,7 @@ const extractPhoneNumber = (sender: string): string =>
  * GET /webhook — Compatibilidad con verificación de Meta (no necesaria para Evolution API,
  * pero se mantiene para facilitar migración futura a la API oficial).
  */
-export const verifyWebhook = (req: Request, res: Response): void => {
+export const verifyWebhook = (req: Request, res: Response, next: NextFunction): void => {
   const mode = req.query['hub.mode'];
   const token = req.query['hub.verify_token'];
   const challenge = req.query['hub.challenge'];
@@ -103,7 +104,7 @@ export const verifyWebhook = (req: Request, res: Response): void => {
     logger.info('[WhatsApp] Webhook Meta verificado');
     res.status(200).send(challenge);
   } else {
-    res.sendStatus(403);
+    throw new AppError('No tienes los permisos necesarios para realizar esta acción.', 403, 'FORBIDDEN_ACTION');
   }
 };
 

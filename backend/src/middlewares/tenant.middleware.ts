@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { verifyToken, TokenPayload } from '../utils/auth';
+import { AppError } from '../utils/app-error';
 
 export interface AuthenticatedRequest extends Request {
   user?: TokenPayload;
@@ -11,7 +12,7 @@ export const tenantMiddleware = (req: AuthenticatedRequest, res: Response, next:
     const authHeader = req.headers.authorization;
     
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return res.status(401).json({ error: 'Missing or invalid authorization header' });
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 401, 'BAD_REQUEST_DATA');
     }
 
     const token = authHeader.split(' ')[1];
@@ -23,6 +24,6 @@ export const tenantMiddleware = (req: AuthenticatedRequest, res: Response, next:
 
     next();
   } catch (error) {
-    return res.status(401).json({ error: 'Invalid or expired token' });
+    next(new AppError('No autorizado. Tu sesión ha expirado.', 401, 'SESSION_EXPIRED'));
   }
 };

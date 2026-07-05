@@ -1,15 +1,15 @@
-import { Response } from 'express';
+import { Response, NextFunction } from 'express';
+import { AppError } from '../utils/app-error';
 import { AuthenticatedRequest } from '../middlewares/tenant.middleware';
 import { prisma } from '../models/db';
 import { Prisma } from '@prisma/client';
 import { buildTransactionFilter } from '../utils/filter.builder';
 
-export const getCierre = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getCierre = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const where = buildTransactionFilter(tenantId, req.query);
@@ -29,17 +29,15 @@ export const getCierre = async (req: AuthenticatedRequest, res: Response): Promi
       data: metrics,
     });
   } catch (error) {
-    console.error('Error fetching cierre report:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const getAnomalias = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getAnomalias = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const where = buildTransactionFilter(tenantId, req.query);
@@ -70,17 +68,15 @@ export const getAnomalias = async (req: AuthenticatedRequest, res: Response): Pr
       listado: transacciones,
     });
   } catch (error) {
-    console.error('Error fetching anomalias report:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };
 
-export const getEficiencia = async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+export const getEficiencia = async (req: AuthenticatedRequest, res: Response, next: NextFunction): Promise<void> => {
   try {
     const tenantId = req.tenantId;
     if (!tenantId) {
-      res.status(401).json({ error: 'Tenant ID is required' });
-      return;
+      throw new AppError('Faltan datos obligatorios o el formato es inválido.', 400, 'BAD_REQUEST_DATA');
     }
 
     const where = buildTransactionFilter(tenantId, req.query);
@@ -111,7 +107,6 @@ export const getEficiencia = async (req: AuthenticatedRequest, res: Response): P
       porcentaje_automatizacion: Number(porcentajeAutomatizacion.toFixed(2)),
     });
   } catch (error) {
-    console.error('Error fetching eficiencia report:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    next(error);
   }
 };

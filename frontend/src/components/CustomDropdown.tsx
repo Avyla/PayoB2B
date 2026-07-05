@@ -32,15 +32,15 @@ export const CustomDropdown: React.FC<CustomDropdownProps> = ({
         setIsOpen(false);
       }
     };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside, { passive: true });
+    return () => document.removeEventListener('mousedown', handleClickOutside, { passive: true } as EventListenerOptions);
   }, []);
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
       <button
         type="button"
-        className="w-full bg-slate-50 border border-slate-300 rounded-lg text-sm p-2 font-medium text-slate-800 text-left hover:bg-white focus:bg-white focus:ring-2 focus:ring-slate-900 focus:outline-none transition-all flex justify-between items-center"
+        className="w-full bg-transparent border border-slate-200 rounded-md text-sm px-3 py-2 font-medium text-slate-700 text-left hover:bg-slate-50 hover:border-slate-300 focus:bg-white focus:ring-2 focus:ring-slate-900 focus:outline-none transition-all flex justify-between items-center"
         onClick={() => setIsOpen(!isOpen)}
       >
         <span className="truncate mr-2">
@@ -52,26 +52,32 @@ export const CustomDropdown: React.FC<CustomDropdownProps> = ({
       </button>
 
       {isOpen && (
-        <div className="absolute z-[60] mt-1 left-0 w-full sm:min-w-[240px] max-w-[calc(100vw-2rem)] bg-white border border-slate-200 rounded-lg shadow-2xl overflow-hidden">
+        <div className="absolute z-[60] mt-1 left-0 w-full sm:min-w-[240px] max-w-[calc(100vw-2rem)] bg-white border border-slate-200 rounded-lg shadow-lg overflow-hidden">
           <ul className="max-h-60 overflow-y-auto py-1 scrollbar-thin scrollbar-thumb-slate-300">
-            {options.map((option) => (
-              <li key={option.value}>
-                <button
-                  type="button"
-                  className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
-                    value === option.value
-                      ? 'bg-emerald-50 text-emerald-700 font-bold'
-                      : 'text-slate-700 hover:bg-slate-50 font-medium'
-                  }`}
-                  onClick={() => {
-                    onChange(option.value);
-                    setIsOpen(false);
-                  }}
-                >
-                  <span className="block break-words whitespace-normal">{option.label}</span>
-                </button>
+            {options.length > 0 ? (
+              options.map((option) => (
+                <li key={option.value}>
+                  <button
+                    type="button"
+                    className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                      value === option.value
+                        ? 'bg-slate-100 text-slate-900 font-bold'
+                        : 'text-slate-700 hover:bg-slate-50 font-medium'
+                    }`}
+                    onClick={() => {
+                      onChange(option.value);
+                      setIsOpen(false);
+                    }}
+                  >
+                    <span className="block truncate">{option.label}</span>
+                  </button>
+                </li>
+              ))
+            ) : (
+              <li className="px-4 py-3 text-sm text-slate-500 italic text-center">
+                No hay opciones disponibles
               </li>
-            ))}
+            )}
           </ul>
         </div>
       )}

@@ -72,3 +72,13 @@ Thumbs.db
 *.njsproj
 *.sln
 *.sw?
+
+# Ignored by Antigravity
+.agents/
+.codex/
+db_state.json
+pruebacorreo.eml
+Comprobantes/
+skills-lock.json
+*.csv
+
